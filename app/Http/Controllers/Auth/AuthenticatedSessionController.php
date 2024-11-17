@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         // Mencoba login
         if (Auth::attempt($request->only('email', 'password'))) {
             // Jika login berhasil, redirect ke beranda
-            return redirect()->route('dashboard')->with('success', 'Selamat datang!');
+            return redirect()->route('welcome')->with('success', 'Selamat datang!');
         }
     
         // Jika login gagal, kembali ke halaman login dengan error

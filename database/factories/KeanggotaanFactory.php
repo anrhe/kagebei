@@ -27,7 +27,7 @@ class KeanggotaanFactory extends Factory
             'id_gereja' => Gereja::factory(),
             'nama' => $this->faker->name(),
             'jenis_kelamin' => $this->faker->randomElement(['L', 'P']),
-            'kelompok_doa' => $this->faker->randomElement(['1', '2', '3']),,
+            'kelompok_doa' => $this->faker->randomElement(['1', '2', '3']),
             'tanggal_lahir' => $tanggalLahir,
             'umur' => $umur,
             'pendidikan_terakhir' => $this->faker->randomElement(['Tidak Sekolah','SD', 'SMP','SMA', 'D1', 'D2', 'S1', 'S2', 'S3']),
