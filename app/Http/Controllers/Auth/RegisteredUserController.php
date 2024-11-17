@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gereja;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +22,10 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+       // Mendapatkan list nama dan id dari semua gereja
+       $gereja = Gereja::all()->pluck('nama', 'id');
+
+        return view('auth.register', compact('gereja'));
     }
 
     /**
@@ -28,43 +33,32 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function createNewUser(Request $request): RedirectResponse
     {
         // Validasi data yang diterima dari formulir
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:pengguna'], // perbaikan di sini
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'id_gereja' => ['required', 'exists:gereja,id'],
         ]);
 
-        // Mendapatkan id_gereja
-        $idGereja = $this->getIdGereja();
-
-        // Pastikan id_gereja tidak null
-        if (!$idGereja) {
-            return redirect()->back()->withErrors(['id_gereja' => 'Gereja tidak ditemukan.']);
-        }
+        Log::info("Validasi berhasil! Silakan login.");
+        Log::info(request()->all());
 
         // Buat pengguna baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'id_gereja' => $idGereja, 
+            'id_gereja' => $request->id_gereja, 
         ]);
 
-        // Trigger event registrasi
-        event(new Registered($user));
+        Log::info("Registrasi berhasil! Silakan login.");   
 
+        event(new Registered($user));
         // Redirect ke halaman login setelah registrasi
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
-    
-    private function getIdGereja()
-    {
-        // Ambil id_gereja dari tabel gereja
-        $gereja = DB::table('gereja')->first();
-        return $gereja ? $gereja->id : null; // Pastikan mengembalikan id yang valid
-    }
 }

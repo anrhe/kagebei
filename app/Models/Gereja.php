@@ -26,4 +26,9 @@ class Gereja extends Model
     {
         return $this->hasMany(Transaksi::class, 'id_gereja'); 
     }
+
+    public function getAllGereja()
+    {
+        return Gereja::all();
+    }
 }

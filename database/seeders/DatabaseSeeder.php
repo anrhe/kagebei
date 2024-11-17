@@ -32,6 +32,11 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         echo "Pengguna instances created\n";
 
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
+
 
         // Create Keanggotaan instances (with relationships)
         $chosenGerejaId = Gereja::inRandomOrder()->value('id');
