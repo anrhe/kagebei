@@ -12,7 +12,7 @@ class Transaksi extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'transaksi';
+    protected $table = 'laporan';
     public $incrementing = false;
 
     public static function getWeeklyTotals($numWeeks = 5)

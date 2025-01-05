@@ -19,7 +19,9 @@ class GerejaFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'nama' => $this->faker->company()
+            'nama' => $this->faker->company(),
+            'alamat' => $this->faker->address(),
+            'kontak' => $this->faker->phoneNumber(),
         ];
     }
 }

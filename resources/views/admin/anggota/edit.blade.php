@@ -107,17 +107,22 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="id_gereja" class="block font-medium text-sm text-gray-700">Gereja</label>
-                            <select name="id_gereja" id="id_gereja" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                @foreach($gereja as $g)
-                                    <option value="{{ $g->id }}" {{ $anggota->id_gereja == $g->id ? 'selected' : '' }}>{{ $g->nama }}</option>
-                                @endforeach
-                            </select>
-                            @error('id_gereja')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        @if (Auth::user()->role == 'admin')
+                            <div class="mb-4">
+                                <label for="id_gereja" class="block font-medium text-sm text-gray-700">Gereja</label>
+                                <select name="id_gereja" id="id_gereja" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @foreach($gereja as $g)
+                                        <option value="{{ $g->id }}" {{ $anggota->id_gereja == $g->id ? 'selected' : '' }}>{{ $g->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('id_gereja')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @else
+                            {{-- Hidden input to set id_gereja for non-admin users --}}
+                            <input type="hidden" name="id_gereja" value="{{ Auth::user()->id_gereja }}">
+                        @endif
 
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Simpan

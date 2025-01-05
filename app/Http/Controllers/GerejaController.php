@@ -6,6 +6,7 @@ use App\Models\Gereja;
 use App\Http\Requests\StoreGerejaRequest;
 use App\Http\Requests\UpdateGerejaRequest;
 use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class GerejaController extends Controller
@@ -33,6 +34,8 @@ class GerejaController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
         ]);
 
         Gereja::create($request->all());
@@ -60,11 +63,17 @@ class GerejaController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
         ]);
 
         $gereja->update($request->all());
 
-        return redirect()->route('admin.dashboard')->with('success', 'Gereja berhasil diperbarui.');
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Gereja berhasil diperbarui.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard', $gereja)->with('success', 'Gereja berhasil diperbarui.');
+        }
     }
 
     /**

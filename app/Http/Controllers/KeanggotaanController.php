@@ -90,7 +90,11 @@ class KeanggotaanController extends Controller
 
         Keanggotaan::create($request->all());
 
-        return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
     }
 
 
@@ -132,7 +136,11 @@ class KeanggotaanController extends Controller
     
         $anggota->update($request->all());
     
-        return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil diperbarui.');
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
     }
 
     /**
@@ -142,6 +150,10 @@ class KeanggotaanController extends Controller
     {
         $anggota->delete();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil dihapus.');
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
     }
 }

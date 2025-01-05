@@ -49,6 +49,11 @@ class Keanggotaan extends Model
         return Keanggotaan::all();
     }
 
+    public static function getAnggotaByGereja($gerejaId)
+    {
+        return Keanggotaan::where('id_gereja', $gerejaId)->get();
+    }
+
     public function gereja()
     {
         return $this->belongsTo(Gereja::class, 'id_gereja');

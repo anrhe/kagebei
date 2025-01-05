@@ -12,7 +12,9 @@ class Gereja extends Model
 
     protected $table = 'gereja';
     protected $fillable = [
-        'nama'
+        'nama',
+        'alamat',
+        'kontak',
     ];
 
     public function pengguna() 

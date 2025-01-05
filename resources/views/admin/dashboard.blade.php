@@ -18,7 +18,9 @@
                     <table class="table-auto w-full border border-gray-300">
                         <thead>
                             <tr>
-                                <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Nama Gereja</th>
+                                <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Nama</th>
+                                <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Alamat</th>
+                                <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Kontak</th>
                                 <th colspan="2" class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Aksi</th>
                             </tr>
                         </thead>
@@ -26,6 +28,8 @@
                             @foreach ($gerejas as $gereja)
                                 <tr>
                                     <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $gereja->nama }}</td>
+                                    <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $gereja->alamat }}</td>
+                                    <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $gereja->kontak }}</td>
                                     <td class="px-2 sm:px-4 py-2 border border-gray-200">
                                         <a href="{{ route('gereja.edit', $gereja->id) }}" class="text-blue-500 hover:underline">Edit</a> 
                                     </td>
@@ -50,6 +54,7 @@
                         <thead>
                             <tr>
                                 <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Nama</th>
+                                <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Gereja</th>
                                 <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Email</th>
                                 <th class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Role</th>
                                 <th colspan="2" class="px-2 sm:px-4 py-2 border border-gray-200 bg-gray-200 text-xs sm:text-base">Aksi</th>
@@ -59,6 +64,7 @@
                             @foreach ($users as $user)
                                 <tr>
                                     <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $user->name }}</td>
+                                    <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $user->gereja->nama }}</td>
                                     <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $user->email }}</td>
                                     <td class="px-2 sm:px-4 py-2 border border-gray-200 text-xs sm:text-base">{{ $user->role }}</td>
                                     <td class="px-2 sm:px-4 py-2 border border-gray-200">
