@@ -31,7 +31,13 @@ class AuthenticatedSessionController extends Controller
     
         // Mencoba login
         if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
             // Jika login berhasil, redirect ke beranda
+            if ($user->role === 'admin') {
+                // Jika role adalah 'admin', redirect ke halaman admin
+                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang!');
+            } 
+
             return redirect()->route('welcome')->with('success', 'Selamat datang!');
         }
     

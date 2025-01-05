@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gereja;
 use App\Models\Keanggotaan;
 use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,5 +29,16 @@ class BerandaController extends Controller
     
         // Pass the counts and totals to the dashboard view
         return view('dashboard', compact('categoryCounts', 'weeklyTotals'));
+    }
+
+    public function adminDashboard()
+    {
+        $gerejas = Gereja::getAllGereja();
+
+        $keanggotaan = Keanggotaan::getAllAnggota();
+
+        $users = User::getAllUsersExceptCurrentUser(Auth::id());
+
+        return view('admin.dashboard', compact('gerejas', 'keanggotaan', 'users'));
     }
 }

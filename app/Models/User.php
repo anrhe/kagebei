@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'id_gereja',
+        'role'
     ];
 
     /**
@@ -54,5 +55,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Gereja::class, 'id_gereja');
     }
-    
+
+    public static function getAllUsersExceptCurrentUser($loggedInUser)
+    {
+        return User::where('id', '!=', $loggedInUser)->get();
+    }
 }
