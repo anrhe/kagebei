@@ -11,6 +11,11 @@ class Gereja extends Model
     use HasFactory, HasUuids;
 
     protected $table = 'gereja';
+    protected $fillable = [
+        'nama',
+        'alamat',
+        'kontak',
+    ];
 
     public function pengguna() 
     {
@@ -27,7 +32,7 @@ class Gereja extends Model
         return $this->hasMany(Transaksi::class, 'id_gereja'); 
     }
 
-    public function getAllGereja()
+    public static function getAllGereja()
     {
         return Gereja::all();
     }

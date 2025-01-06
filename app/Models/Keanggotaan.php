@@ -14,6 +14,19 @@ class Keanggotaan extends Model
 
     protected $table = 'keanggotaan';
     public $incrementing = false;
+    protected $fillable = [
+        'id_gereja',
+        'nama',
+        'jenis_kelamin',
+        'kelompok_doa',
+        'kategori',
+        'tanggal_lahir',
+        'umur',
+        'pendidikan_terakhir',
+        'pekerjaan',
+        'jabatan',
+        'status_anggota',
+    ];
 
     public static function getCategoryCounts()
     {
@@ -29,6 +42,16 @@ class Keanggotaan extends Model
             // Handle case where user is not logged in or doesn't have a church
             return collect(); // Return an empty collection
         }
+    }
+
+    public static function getAllAnggota()
+    {
+        return Keanggotaan::all();
+    }
+
+    public static function getAnggotaByGereja($gerejaId)
+    {
+        return Keanggotaan::where('id_gereja', $gerejaId)->get();
     }
 
     public function gereja()

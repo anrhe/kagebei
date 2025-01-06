@@ -6,6 +6,7 @@ use Illuminate\Http\Request as HttpRequest; // Import the Request class
 use App\Models\Keanggotaan;
 use App\Http\Requests\StoreKeanggotaanRequest;
 use App\Http\Requests\UpdateKeanggotaanRequest;
+use App\Models\Gereja;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -63,7 +64,9 @@ class KeanggotaanController extends Controller
      */
     public function create()
     {
-        //
+        $gereja = Gereja::getAllGereja();
+        return view('admin.anggota.create', compact('gereja'));
+
     }
 
     /**
@@ -71,8 +74,29 @@ class KeanggotaanController extends Controller
      */
     public function store(StoreKeanggotaanRequest $request)
     {
-        //
+        $request->validate([
+            'id_gereja' => 'required|exists:gereja,id',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:L,P',
+            'tanggal_lahir' => 'required|date',
+            'umur' => 'required|integer|min:0',
+            'status_anggota' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'kelompok_doa' => 'required|string|max:255',
+            'pendidikan_terakhir' => 'required|string|max:255',
+            'pekerjaan' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+        ]);
+
+        Keanggotaan::create($request->all());
+
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -85,24 +109,51 @@ class KeanggotaanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Keanggotaan $keanggotaan)
+    public function edit(Keanggotaan $anggota)
     {
-        //
+        $gereja = Gereja::getAllGereja();
+        return view('admin.anggota.edit', compact('anggota', 'gereja'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKeanggotaanRequest $request, Keanggotaan $keanggotaan)
+    public function update(UpdateKeanggotaanRequest $request, Keanggotaan $anggota)
     {
-        //
+        $request->validate([
+            'id_gereja' => 'required|exists:gereja,id',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:L,P',
+            'tanggal_lahir' => 'required|date',
+            'umur' => 'required|integer|min:0',
+            'status_anggota' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'kelompok_doa' => 'required|string|max:255',
+            'pendidikan_terakhir' => 'required|string|max:255',
+            'pekerjaan' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+        ]);
+    
+        $anggota->update($request->all());
+    
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Keanggotaan $keanggotaan)
+    public function destroy(Keanggotaan $anggota)
     {
-        //
+        $anggota->delete();
+
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
     }
 }

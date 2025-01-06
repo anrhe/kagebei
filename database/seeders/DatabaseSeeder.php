@@ -9,6 +9,8 @@ use App\Models\Transaksi;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,26 +19,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
         // Create Gereja instances
         Gereja::factory(5)->create(); 
         echo "Gereja instances created\n";
 
-        // Create Pengguna instances
-        User::factory(10)->create();
-        echo "Pengguna instances created\n";
+        $gereja = Gereja::inRandomOrder()->first();
 
+        // Create Pengguna instances
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'id_gereja' => $gereja->id,
+            'name' => 'Admin User',
+            'email' => 'admin@gmail.com',
+            'role' => 'admin',
+            'password' => Hash::make('password123'),
+            'remember_token' => Str::random(10),
+        ]);
+        User::factory()->create([
+            'id_gereja' => $gereja->id,
+            'name' => 'User',
+            'email' => 'user@gmail.com',
+            'role' => 'user',
+            'password' => Hash::make('password123'),
+            'remember_token' => Str::random(10),
         ]);
 
+        User::factory(10)->create();
+        echo "Pengguna instances created\n";
 
         // Create Keanggotaan instances (with relationships)
         $chosenGerejaId = Gereja::inRandomOrder()->value('id');

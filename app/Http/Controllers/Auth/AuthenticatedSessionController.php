@@ -31,8 +31,20 @@ class AuthenticatedSessionController extends Controller
     
         // Mencoba login
         if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
+            
             // Jika login berhasil, redirect ke beranda
-            return redirect()->route('welcome')->with('success', 'Selamat datang!');
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard')->with('success', 'Selamat datang!');
+                    break;
+                case 'operator':
+                    return redirect()->route('admin.gereja.dashboard')->with('success', 'Selamat datang!');
+                    break;
+                default:
+                    return redirect()->route('welcome')->with('success', 'Selamat datang!');
+                    break;
+            }
         }
     
         // Jika login gagal, kembali ke halaman login dengan error

@@ -2,12 +2,28 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\GerejaController;
+use App\Http\Controllers\KeanggotaanController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
+Route::middleware(['role:admin', 'log'])->group(function () {
+    Route::get('/admin/dashboard', [BerandaController::class, 'dashboardAdminGlobal'])->name('admin.dashboard');
+    Route::resource('pengguna', UserController::class); 
+});
+
+Route::middleware(['role:admin,operator', 'log'])->group(function () {
+    Route::get('/operator/dashboard', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
+    Route::resource('gereja', GerejaController::class); 
+    Route::resource('anggota', KeanggotaanController::class)->parameters(['anggota' => 'anggota']);
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

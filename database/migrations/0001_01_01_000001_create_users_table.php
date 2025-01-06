@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pengguna', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('id_gereja');
+            $table->enum('role', ['admin', 'operator', 'gembala', 'user'])->default('user')->nullable(false);
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

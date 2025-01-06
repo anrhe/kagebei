@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Gereja;
 use App\Http\Requests\StoreGerejaRequest;
 use App\Http\Requests\UpdateGerejaRequest;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class GerejaController extends Controller
 {
@@ -21,7 +24,7 @@ class GerejaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.gereja.create');
     }
 
     /**
@@ -29,7 +32,15 @@ class GerejaController extends Controller
      */
     public function store(StoreGerejaRequest $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
+        ]);
+
+        Gereja::create($request->all());
+
+        return redirect()->route('admin.dashboard')->with('success', 'Gereja berhasil ditambahkan.');
     }
 
     /**
@@ -45,15 +56,24 @@ class GerejaController extends Controller
      */
     public function edit(Gereja $gereja)
     {
-        //
+        return view('admin.gereja.edit', compact('gereja'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateGerejaRequest $request, Gereja $gereja)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
+        ]);
+
+        $gereja->update($request->all());
+
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Gereja berhasil diperbarui.');
+        } else {
+            return redirect()->route('admin.gereja.dashboard', $gereja)->with('success', 'Gereja berhasil diperbarui.');
+        }
     }
 
     /**
@@ -61,6 +81,8 @@ class GerejaController extends Controller
      */
     public function destroy(Gereja $gereja)
     {
-        //
+        $gereja->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Gereja berhasil dihapus.');
     }
 }
