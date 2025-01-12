@@ -16,6 +16,12 @@ class UserController extends Controller
         return view('admin.pengguna.index', compact('pengguna'));
     }
 
+    public function listPengguna()
+    {
+        $users = User::all(); // Mengambil semua data pengguna
+        return view('admin.list-pengguna', compact('users')); // Kirim data ke view
+    }
+
     public function create()
     {
         $gereja = Gereja::all();
@@ -34,7 +40,7 @@ class UserController extends Controller
 
         User::create($request->all());
 
-        return redirect()->route('admin.beranda')->with('success', 'Pengguna berhasil ditambahkan.');
+        return redirect()->route('admin.dashboard')->with('success', 'Pengguna berhasil ditambahkan.');
     }
 
     public function edit(User $pengguna)
