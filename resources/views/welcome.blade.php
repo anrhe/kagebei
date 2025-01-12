@@ -33,13 +33,6 @@
                                 style="background-color: #a6c4ff !important;"
                             >Masuk</a>
                     
-                            @if (Route::has('register'))
-                                <a
-                                    href="{{ route('register') }}"
-                                    class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 transition hover:text-black/70 focus:outline-none"
-                                    style="background-color: #a6c4ff !important;"
-                                >Registrasi</a>
-                            @endif
                         @endauth
                     </nav>
                     

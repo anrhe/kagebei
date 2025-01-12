@@ -8,13 +8,20 @@
                     <a href="{{ route('welcome') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
+                    
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('tesuto') }}
                     </x-nav-link>
+                </div>
+                <div >
+                    <a href="{{ route('admin.list.pengguna') }}" 
+                         class="text-white bg-blue-500 rounded-lg hover:bg-blue-700 px-4 py-2">
+                         List Pengguna
+                    </a>
                 </div>
             </div>
 

@@ -23,6 +23,14 @@ Route::middleware(['role:admin', 'log'])->group(function () {
     Route::resource('pengguna', UserController::class); 
 });
 
+// yg ini baru ne
+Route::middleware(['role:admin', 'log'])->group(function () {
+    Route::get('/admin/dashboard', [BerandaController::class, 'dashboardAdminGlobal'])->name('admin.dashboard');
+    Route::get('/admin/list-pengguna', [UserController::class, 'listPengguna'])->name('admin.list.pengguna');
+    Route::resource('pengguna', UserController::class);
+});
+
+
 Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
     Route::get('/gereja/dashboard', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
 });
