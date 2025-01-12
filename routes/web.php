@@ -20,15 +20,22 @@ Route::middleware(['role:admin', 'log'])->group(function () {
     Route::resource('pengguna', UserController::class); 
 });
 
+Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
+    Route::get('/gereja/dashboard', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
+});
+
 Route::middleware(['role:admin,operator', 'log'])->group(function () {
-    Route::get('/operator/dashboard', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
     Route::resource('gereja', GerejaController::class); 
     Route::resource('anggota', KeanggotaanController::class)->parameters(['anggota' => 'anggota']);
 });
 
+
 Route::middleware(['role:operator', 'log'])->group(function () {
     Route::resource('laporan', TransaksiController::class);
-    Route::get('/dashboard/laporan/ringkasan', [TransaksiController::class, 'summary'])->name('laporan.summary');
+});
+
+Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
+    Route::get('/gereja/dashboard/laporan/ringkasan', [TransaksiController::class, 'summary'])->name('laporan.summary');
 });
 
 Route::get('/dashboard', function () {

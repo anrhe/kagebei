@@ -90,28 +90,40 @@ class TransaksiController extends Controller
 
         return redirect()->route('admin.gereja.dashboard')->with('success', 'Laporan berhasil dihapus.');
     }
-
+    
     public function summary(Request $request)
     {
-
-        // Get available months with transactions
-        $availableMonths = Transaksi::selectRaw("TO_CHAR(tanggal, 'YYYY-MM') as month, TO_CHAR(tanggal, 'FMMonth YYYY') as label")
-            ->groupBy('month', 'label')
-            ->orderBy('month', 'desc')
-            ->pluck('label', 'month');
-
-        // Check if a specific month is selected
-        $monthFilter = $request->query('month');
-        $query = Transaksi::query();
-
-        if ($monthFilter) {
-            $query->whereRaw("TO_CHAR(tanggal, 'YYYY-MM') = ?", [$monthFilter]);
+        // Get available weeks with transactions
+        $availableWeeks = Transaksi::selectRaw("
+            TO_CHAR(tanggal, 'WW') as week_number, 
+            TO_CHAR(DATE_TRUNC('week', tanggal), 'YYYY-MM-DD') as week_start, 
+            TO_CHAR(DATE_TRUNC('week', tanggal) + INTERVAL '6 days', 'YYYY-MM-DD') as week_end
+        ")
+        ->groupBy('week_number', 'week_start', 'week_end')
+        ->orderBy('week_number', 'desc')
+        ->get();
+    
+        // Format available weeks for dropdown
+        $formattedWeeks = [];
+        foreach ($availableWeeks as $week) {
+            $startDate = Carbon::createFromFormat('Y-m-d', $week->week_start)->translatedFormat('d F Y');
+            $endDate = Carbon::createFromFormat('Y-m-d', $week->week_end)->translatedFormat('d F Y');
+            $formattedWeeks[$week->week_number] = "$startDate - $endDate";
         }
-
+    
+        // Check if a specific week is selected
+        $weekFilter = $request->query('week');
+        $query = Transaksi::query();
+    
+        if ($weekFilter) {
+            $query->whereRaw("TO_CHAR(tanggal, 'WW') = ?", [$weekFilter]);
+        }
+    
         // Separate income and expense transactions
         $incomeTransactions = (clone $query)->where('tipe', 'pemasukan')->orderBy('created_at', 'desc')->get();
         $expenseTransactions = (clone $query)->where('tipe', 'pengeluaran')->orderBy('created_at', 'desc')->get();
-
+    
+        // Format tanggal for income transactions
         foreach ($incomeTransactions as $transaction) {
             $transaction->tanggal = Carbon::createFromFormat('Y-m-d', $transaction->tanggal)->translatedFormat('d F Y');
         }
@@ -120,15 +132,15 @@ class TransaksiController extends Controller
         foreach ($expenseTransactions as $transaction) {
             $transaction->tanggal = Carbon::createFromFormat('Y-m-d', $transaction->tanggal)->translatedFormat('d F Y');
         }
-
+    
         // Calculate totals
         $totalIncome = $incomeTransactions->sum('nominal');
         $totalExpense = $expenseTransactions->sum('nominal');
         $balance = $totalIncome - $totalExpense;
-
+    
         // Pass data to the view
         return view('admin.transaksi.summary', [
-            'availableMonths' => $availableMonths,
+            'availableWeeks' => $formattedWeeks, 
             'incomeTransactions' => $incomeTransactions,
             'expenseTransactions' => $expenseTransactions,
             'totalIncome' => $totalIncome,
