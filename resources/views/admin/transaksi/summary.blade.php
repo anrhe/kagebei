@@ -10,16 +10,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <h3 class="text-bold font-extrabold text-2xl py-3">Ringkasan Transaksi Gereja</h3>
+                    <h3 class="text-bold font-extrabold text-2xl py-3">Laporan Keuangan Gereja</h3>
 
                     <!-- Month Filter -->
                     <form method="GET" action="{{ route('laporan.summary') }}" class="mb-6">
-                        <label for="month" class="block text-gray-700 font-medium">Pilih Bulan:</label>
-                        <select name="month" id="month" class="w-full sm:w-auto border-gray-300 rounded-md shadow-sm">
-                            <option value="">Semua Bulan</option>
-                            @foreach ($availableMonths as $key => $month)
-                                <option value="{{ $key }}" {{ request('month') == $key ? 'selected' : '' }}>
-                                    {{ $month }}
+                        <label for="week" class="block text-gray-700 font-medium">Pilih Minggu:</label>
+                        <select name="week" id="week" class="w-full sm:w-auto border-gray-300 rounded-md shadow-sm">
+                            <option value="">Semua Minggu</option>
+                            @foreach ($availableWeeks as $key => $week)
+                                <option value="{{ $key }}" {{ request('week') == $key ? 'selected' : '' }}>
+                                    {{ $week }}
                                 </option>
                             @endforeach
                         </select>
