@@ -20,21 +20,21 @@ class TransaksiFactory extends Factory
     public function definition(): array
     {
         $transactionTypes = [
-            'Pembelian bahan makanan' => 'Pengeluaran',
-            'Pembayaran listrik' => 'Pengeluaran',
-            'Donasi' => 'Pemasukan',
-            'Uang syukuran' => 'Pemasukan',
-            'Persembahan' => 'Pemasukan',
-            'Aksi Dana' => 'Pemasukan',
-            'Perpuluhan' => 'Pemasukan',
-            'Persembahan Pendalaman Alkitab' => 'Pemasukan',
-            'Sampul Sumbangan' => 'Pemasukan',
-            'Biaya pemeliharaan' => 'Pengeluaran',
-            'Pembelian peralatan gereja' => 'Pengeluaran',
+            'Pembelian bahan makanan' => 'pengeluaran',
+            'Pembayaran listrik' => 'pengeluaran',
+            'Donasi' => 'pemasukan',
+            'Uang syukuran' => 'pemasukan',
+            'Persembahan' => 'pemasukan',
+            'Aksi Dana' => 'pemasukan',
+            'Perpuluhan' => 'pemasukan',
+            'Persembahan Pendalaman Alkitab' => 'pemasukan',
+            'Sampul Sumbangan' => 'pemasukan',
+            'Biaya pemeliharaan' => 'pengeluaran',
+            'Pembelian peralatan gereja' => 'pengeluaran',
         ];
 
         $nama = $this->faker->randomKey($transactionTypes);
-        static $daysAgo = 162;
+        $daysAgo = 162;
 
         return [
             'id' => Str::uuid(),
@@ -42,8 +42,7 @@ class TransaksiFactory extends Factory
             'nama' => $nama,
             'tipe' => $transactionTypes[$nama],
             'nominal' => $this->faker->randomFloat(2, 500000, 30000000),
-            'created_at' => Carbon::now()->subDays($daysAgo),
-            'updated_at' => Carbon::now()->subDays($daysAgo--),
+            'tanggal' => $this->faker->dateTimeBetween('-' . $daysAgo . ' days', 'now')->format('d-m-Y'),
         ];
     }
 }

@@ -34,13 +34,9 @@ class BerandaController extends Controller
 
     public function dashboardAdminGlobal()
     {
-        $gerejas = Gereja::getAllGereja();
+        $gerejas = Gereja::with('pengguna')->get();
 
-        $keanggotaan = Keanggotaan::getAllAnggota();
-
-        $users = User::getAllUsersExceptCurrentUser(Auth::id());
-
-        return view('admin.dashboard', compact('gerejas', 'keanggotaan', 'users'));
+        return view('admin.dashboard', compact('gerejas'));
     }
 
     public function dashboardAdminGereja()
@@ -48,6 +44,14 @@ class BerandaController extends Controller
         $gerejaId = Auth::user()->id_gereja;
 
         $gereja = Gereja::find($gerejaId);
+
+        $laporan = Transaksi::where('id_gereja', $gerejaId)->orderBy('created_at', 'desc')
+                    ->paginate(30);
+
+        $laporan->getCollection()->transform(function ($laporan) {
+            $laporan->tanggal = Carbon::parse($laporan->tanggal)->translatedFormat('d F Y');
+            return $laporan;
+        });
 
         // Use paginate instead of get
         $keanggotaan = Keanggotaan::where('id_gereja', $gerejaId)
@@ -59,6 +63,6 @@ class BerandaController extends Controller
             return $anggota;
         });
 
-        return view('admin.gereja.dashboard', compact('gereja', 'keanggotaan'));
+        return view('admin.gereja.dashboard', compact('gereja', 'keanggotaan', 'laporan'));
     }
 }

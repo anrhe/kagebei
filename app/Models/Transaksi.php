@@ -15,6 +15,14 @@ class Transaksi extends Model
     protected $table = 'laporan';
     public $incrementing = false;
 
+    protected $fillable = [
+        'id_gereja',
+        'nominal',
+        'tipe',
+        'nama',
+        'tanggal'
+    ];
+
     public static function getWeeklyTotals($numWeeks = 5)
     {
         $user = Auth::user();
