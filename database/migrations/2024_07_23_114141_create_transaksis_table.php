@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama'); 
             $table->string('tipe');
             $table->decimal('nominal', 10, 2); 
+            $table->date('tanggal');
             $table->timestamps();
 
             $table->foreign('id_gereja')->references('id')->on('gereja')->onDelete('cascade');

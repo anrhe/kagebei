@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\GerejaController;
 use App\Http\Controllers\KeanggotaanController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,11 @@ Route::middleware(['role:admin,operator', 'log'])->group(function () {
     Route::get('/operator/dashboard', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
     Route::resource('gereja', GerejaController::class); 
     Route::resource('anggota', KeanggotaanController::class)->parameters(['anggota' => 'anggota']);
+});
+
+Route::middleware(['role:operator', 'log'])->group(function () {
+    Route::resource('laporan', TransaksiController::class);
+    Route::get('/dashboard/laporan/ringkasan', [TransaksiController::class, 'summary'])->name('laporan.summary');
 });
 
 Route::get('/dashboard', function () {
