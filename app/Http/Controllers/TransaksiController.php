@@ -90,47 +90,76 @@ class TransaksiController extends Controller
 
         return redirect()->route('admin.gereja.dashboard')->with('success', 'Laporan berhasil dihapus.');
     }
-    
+
     public function summary(Request $request)
     {
-        // Get available weeks with transactions
-        $availableWeeks = Transaksi::selectRaw("
-            TO_CHAR(tanggal, 'WW') as week_number, 
-            TO_CHAR(DATE_TRUNC('week', tanggal), 'YYYY-MM-DD') as week_start, 
-            TO_CHAR(DATE_TRUNC('week', tanggal) + INTERVAL '6 days', 'YYYY-MM-DD') as week_end
-        ")
-        ->groupBy('week_number', 'week_start', 'week_end')
-        ->orderBy('week_number', 'desc')
-        ->get();
+        // Get filter inputs
+        $selectedYear = $request->query('year', null);
+        $selectedMonth = $request->query('month', null);
+        $selectedWeek = $request->query('week', null);
     
-        // Format available weeks for dropdown
-        $formattedWeeks = [];
-        foreach ($availableWeeks as $week) {
-            $startDate = Carbon::createFromFormat('Y-m-d', $week->week_start)->translatedFormat('d F Y');
-            $endDate = Carbon::createFromFormat('Y-m-d', $week->week_end)->translatedFormat('d F Y');
-            $formattedWeeks[$week->week_number] = "$startDate - $endDate";
+        // Get the id_gereja from the authenticated user
+        $idGereja = Auth::user()->id_gereja;
+    
+        // Fetch available years filtered by id_gereja
+        $availableYears = Transaksi::selectRaw("TO_CHAR(tanggal, 'YYYY') as year")
+            ->where('id_gereja', $idGereja)
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->get();
+    
+        // Fetch available months based on the selected year and id_gereja
+        $availableMonths = [];
+        if ($selectedYear) {
+            $availableMonths = Transaksi::selectRaw("
+                    TO_CHAR(tanggal, 'MM') as month,
+                    TO_CHAR(tanggal, 'Month') as month_name
+                ")
+                ->where('id_gereja', $idGereja)
+                ->whereRaw("TO_CHAR(tanggal, 'YYYY') = ?", [$selectedYear])
+                ->groupBy('month', 'month_name')
+                ->orderBy('month', 'asc')
+                ->get();
         }
     
-        // Check if a specific week is selected
-        $weekFilter = $request->query('week');
-        $query = Transaksi::query();
+        // Fetch available weeks based on the selected year, month, and id_gereja
+        $availableWeeks = [];
+        if ($selectedYear && $selectedMonth) {
+            $availableWeeks = Transaksi::selectRaw("
+                    TO_CHAR(tanggal, 'WW') as week,
+                    TO_CHAR(DATE_TRUNC('week', tanggal), 'YYYY-MM-DD') as start_date,
+                    TO_CHAR(DATE_TRUNC('week', tanggal) + INTERVAL '6 days', 'YYYY-MM-DD') as end_date
+                ")
+                ->where('id_gereja', $idGereja)
+                ->whereRaw("TO_CHAR(tanggal, 'YYYY') = ?", [$selectedYear])
+                ->whereRaw("TO_CHAR(tanggal, 'MM') = ?", [$selectedMonth])
+                ->groupBy('week', 'start_date', 'end_date')
+                ->orderBy('start_date', 'asc')
+                ->get();
+        }
     
-        if ($weekFilter) {
-            $query->whereRaw("TO_CHAR(tanggal, 'WW') = ?", [$weekFilter]);
+        // Filter transactions by id_gereja
+        $query = Transaksi::where('id_gereja', $idGereja);
+        if ($selectedYear) {
+            $query->whereRaw("TO_CHAR(tanggal, 'YYYY') = ?", [$selectedYear]);
+        }
+        if ($selectedMonth) {
+            $query->whereRaw("TO_CHAR(tanggal, 'MM') = ?", [$selectedMonth]);
+        }
+        if ($selectedWeek) {
+            $query->whereRaw("TO_CHAR(tanggal, 'WW') = ?", [$selectedWeek]);
         }
     
         // Separate income and expense transactions
         $incomeTransactions = (clone $query)->where('tipe', 'pemasukan')->orderBy('created_at', 'desc')->get();
         $expenseTransactions = (clone $query)->where('tipe', 'pengeluaran')->orderBy('created_at', 'desc')->get();
     
-        // Format tanggal for income transactions
+        // Format dates in transactions
         foreach ($incomeTransactions as $transaction) {
-            $transaction->tanggal = Carbon::createFromFormat('Y-m-d', $transaction->tanggal)->translatedFormat('d F Y');
+            $transaction->tanggal = Carbon::parse($transaction->tanggal)->translatedFormat('d F Y');
         }
-    
-        // Format tanggal for expense transactions
         foreach ($expenseTransactions as $transaction) {
-            $transaction->tanggal = Carbon::createFromFormat('Y-m-d', $transaction->tanggal)->translatedFormat('d F Y');
+            $transaction->tanggal = Carbon::parse($transaction->tanggal)->translatedFormat('d F Y');
         }
     
         // Calculate totals
@@ -140,12 +169,17 @@ class TransaksiController extends Controller
     
         // Pass data to the view
         return view('admin.transaksi.summary', [
-            'availableWeeks' => $formattedWeeks, 
+            'availableYears' => $availableYears,
+            'availableMonths' => $availableMonths,
+            'availableWeeks' => $availableWeeks,
             'incomeTransactions' => $incomeTransactions,
             'expenseTransactions' => $expenseTransactions,
             'totalIncome' => $totalIncome,
             'totalExpense' => $totalExpense,
             'balance' => $balance,
+            'selectedYear' => $selectedYear,
+            'selectedMonth' => $selectedMonth,
+            'selectedWeek' => $selectedWeek,
         ]);
-    }
+    }    
 }

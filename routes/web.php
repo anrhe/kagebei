@@ -16,9 +16,6 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::middleware(['role:admin', 'log'])->group(function () {
-    Route::get('/beranda', function () {
-        return view('admin.beranda');
-    })->name('admin.beranda');
     Route::get('/admin/dashboard', [BerandaController::class, 'dashboardAdminGlobal'])->name('admin.dashboard');
     Route::resource('pengguna', UserController::class); 
 });
@@ -32,7 +29,8 @@ Route::middleware(['role:admin', 'log'])->group(function () {
 
 
 Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
-    Route::get('/gereja/dashboard', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
+    Route::get('/gereja/jemaat', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
+    Route::get('/gereja/keuangan', [TransaksiController::class, 'summary'])->name('laporan.summary');
 });
 
 Route::middleware(['role:admin,operator', 'log'])->group(function () {
@@ -45,15 +43,14 @@ Route::middleware(['role:operator', 'log'])->group(function () {
     Route::resource('laporan', TransaksiController::class);
 });
 
-Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
-    Route::get('/gereja/dashboard/laporan/ringkasan', [TransaksiController::class, 'summary'])->name('laporan.summary');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/beranda', function () {
+        return view('admin.beranda');
+    })->name('admin.beranda');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
