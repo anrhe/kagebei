@@ -1,17 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Anggota') }}
-        </h2>
+        <button onclick="window.history.back()" 
+                class="text-gray-800 hover:text-gray-600 transition duration-200 flex items-center focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                <span class="font-medium">{{ __('Kembali') }}</span>
+            </button>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <button onclick="window.history.back();" class="mb-4 text-white bg-gray-500 hover:bg-gray-700 rounded-lg px-4 py-2">
-                        Kembali
-                    </button>
                     
                     <form action="{{ route('anggota.update', $anggota) }}" method="POST">
                         @csrf

@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
             
             // Jika login berhasil, redirect ke beranda
             if ($user->role == 'admin') {
-                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang!');
+                return redirect()->route('admin.beranda')->with('success', 'Selamat datang!');
             } else {
                 return redirect()->route('admin.gereja.dashboard')->with('success', 'Selamat datang!');
             }
