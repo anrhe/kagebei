@@ -16,6 +16,9 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::middleware(['role:admin', 'log'])->group(function () {
+    Route::get('/beranda', function () {
+        return view('admin.beranda');
+    })->name('admin.beranda');
     Route::get('/admin/dashboard', [BerandaController::class, 'dashboardAdminGlobal'])->name('admin.dashboard');
     Route::resource('pengguna', UserController::class); 
 });

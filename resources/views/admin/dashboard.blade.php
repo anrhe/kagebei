@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div class="flex items-center">
+            <!-- Back Button -->
+            <a href="{{ url('/beranda') }}" 
+               class="text-gray-800 hover:text-gray-600 transition duration-200 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                <span class="font-medium">{{ __('Kembali') }}</span>
+            </a>
+        </div>
     </x-slot>
 
     <div class="py-12">
