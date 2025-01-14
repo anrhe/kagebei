@@ -1,6 +1,6 @@
 <svg {{ $attributes }} width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
     <!-- Lingkaran luar (globe) -->
-    <circle cx="150" cy="150" r="140" fill="#5F94A4" stroke="#ffffff" stroke-width="2" />
+    <circle cx="150" cy="150" r="140" fill="#a6c4ff" stroke="#ffffff" stroke-width="2" />
 
     <!-- Garis-garis globe -->
     <!-- Garis melintang horizontal -->
