@@ -16,12 +16,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            <!-- Navigation -->
-            @if (Auth::user()->role === 'admin') 
-                @include('admin.naviadmin') <!-- Navigation khusus admin -->
-            @else
-                @include('layouts.navigation') <!-- Navigation untuk pengguna lain -->
-            @endif
+            @include('admin.naviadmin')
 
             <!-- Page Heading -->
             @isset($header)

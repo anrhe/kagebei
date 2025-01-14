@@ -53,7 +53,7 @@
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <x-primary-button class="ms-3 rounded-md px-3 py-2 text-white text-sm lg:text-base ring-1 transition hover:text-black/70 focus:outline-none" style="background-color: #a6c4ff !important;">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
