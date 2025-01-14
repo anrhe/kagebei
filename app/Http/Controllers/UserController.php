@@ -16,12 +16,6 @@ class UserController extends Controller
         return view('admin.pengguna.index', compact('pengguna'));
     }
 
-    public function listPengguna()
-    {
-        $users = User::all(); // Mengambil semua data pengguna
-        return view('admin.list-pengguna', compact('users')); // Kirim data ke view
-    }
-
     public function create()
     {
         $gereja = Gereja::all();

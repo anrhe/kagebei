@@ -17,28 +17,37 @@
     <body class="font-sans antialiased">
         <div>
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                    <div class="flex lg:justify-center lg:col-start-2"></div>
-                    @if (Route::has('login'))
-                     <nav class="-mx-3 flex flex-1 justify-end items-center gap-4">
-                        @auth
-                            <a
-                                href="{{ url('/dashboard') }}"
-                                class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
-                            >Dashboard</a>
-                        @else
-                            <a
-                                href="{{ route('login') }}"
-                                class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 transition hover:text-black/70 focus:outline-none"
-                                style="background-color: #a6c4ff !important;"
-                            >Masuk</a>
-                    
-                        @endauth
-                    </nav>
-                    
-                    @endif
-                </header>
-            </div>
+<header class="grid grid-cols-3 items-center gap-2 py-10">
+    <!-- Title KADM -->
+    <div class="flex items-center col-span-2 lg:col-span-1">
+        <h2 class="text-xl font-semibold text-black">KADM (KGBI Admin & Finance Manager)</h2>
+    </div>
+
+    <!-- Kolom Tengah Kosong -->
+    <div class="hidden lg:block"></div>
+
+    <!-- Tombol Masuk -->
+    @if (Route::has('login'))
+        <div class="flex items-center justify-end col-span-1">
+            <nav>
+                @auth
+                    <a
+                        href="{{ route('login') }}"
+                        class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
+                    >Login</a>
+                @else
+                    <a
+                        href="{{ route('login') }}"
+                        class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 transition hover:text-black/70 focus:outline-none"
+                        style="background-color: #a6c4ff !important;"
+                    >Masuk</a>
+                @endauth
+            </nav>
+        </div>
+    @endif
+</header>
+   
+      </div>
             
                 <main class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
@@ -48,15 +57,15 @@
                                 id="docs-card"
                                 class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6  shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none  md:row-span-3 lg:p-10 lg:pb-10">
                             <div id="screenshot-container" class="relative flex w-full flex-1 items-center justify-center">
-                              <img class="h-8 w-8" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgP_U_crkAzP-rTmg7vLSBMkQwXf12K39H4Xi4Iaiq6K54O-cyJVw5mUyWFyWbYYcIVRjlAEMjOorC_7ffoBko6YNJXQ2uOT2JPrxohF3kCFw5ovjHFAqv8510Wf96MLcCuW89CrznYhyWRNO6Du3SjzHBk7ZNGKRJS5sCZ0cHXQj1rdd-HnqERVmtY-Nc/s320/kgbi_whitebg.png" alt="KGBI">
-                                <div class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white"></div>
+                              <img class="h-8 w-8" src="https://blogger.googleusercontent.com/img/a/AVvXsEhrV8SKhFQaqzymHlcHfC6BCWPXIh26MjTMT2y3Mn4wqHh1HDy-LNQxbNbfGTPLnWSaxxYl8bp6_6JGkpSjeqplQHurNUyG5pYQmXq470FvkOy-w1uZOP1qiYwL6fVLpqT71V4mC9gfRZBmWUpOe7d5C1n4Qg5QiwriaKcRxFvTQvGnCF4PhD1yB6dHJeM" alt="KGBI">
+                                {{-- <div class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white"></div> --}}
                                 </div>
                             
                                 <div class="relative flex items-center gap-6 lg:items-end">
                                     <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
                                         
                                         <div class="pt-3 sm:pt-5 lg:pt-0">
-                                            <h2 class="text-xl font-semibold text-black">KADM (KGBI Admin & Finance Manager)</h2>
+                                            {{-- <h2 class="text-xl font-semibold text-black">KADM (KGBI Admin & Finance Manager)</h2> --}}
                                            
                                             <p class="mt-4 text-sm/relaxed">
                                                 Mengelola keanggotaan dan keuangan secara efisien, memastikan transparansi dan akurasi dengan solusi terintegrasi.

@@ -13,19 +13,49 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('tesuto') }}
+                    <x-nav-link :href="route('admin.beranda')" :active="request()->routeIs('admin.beranda')">
+                        {{ __('Dashboard') }}
                     </x-nav-link>
-                </div>
-                <div >
-                    <a href="{{ route('admin.list.pengguna') }}" 
-                         class="text-white bg-blue-500 rounded-lg hover:bg-blue-700 px-4 py-2">
-                         List Pengguna
-                    </a>
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                        {{ __('List Pengguna') }}
+                    </x-nav-link>
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
+        
+        {{--  Ini contoh navbar?  <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                @if (Auth::user()->role === 'admin')
+                    <!-- Admin -->
+                    <x-nav-link :href="route('admin.beranda')" :active="request()->routeIs('admin.beranda')">
+                        {{ __('Admin Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        {{ __('Manage Users') }}
+                    </x-nav-link>
+                @elseif (Auth::user()->role === 'user')
+                    <!-- Operator -->
+                    <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
+                        {{ __('User Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('user.profile')" :active="request()->routeIs('user.profile')">
+                        {{ __('Profile') }}
+                    </x-nav-link>
+                @elseif (Auth::user()->role === 'pendeta')
+                    <!-- Pendeta -->
+                    <x-nav-link :href="route('pendeta.home')" :active="request()->routeIs('pendeta.home')">
+                        {{ __('Pendeta Home') }}
+                    </x-nav-link>
+                @else
+                    <!-- Jemaat -->
+                    <x-nav-link :href="route('jemaat.home')" :active="request()->routeIs('jemaat.home')">
+                        {{ __('Jemaat Home') }}
+                    </x-nav-link>
+                @endif
+            </div>
+             --}}
+
+      
+        <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
