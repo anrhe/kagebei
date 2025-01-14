@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <div class="flex items-center justify-between">
             <!-- Back Button -->
             <a href="{{ url('/beranda') }}" 
@@ -9,44 +9,46 @@
                 </svg>
                 <span class="font-medium">{{ __('Kembali') }}</span>
             </a>
-            @if (Auth::user()->role == 'operator')
-                <!-- Add New Report Button -->
-                <a href="{{ route('laporan.create') }}" 
-                    class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg shadow-md focus:outline-none transition duration-200">
-                    + Tambah Transaksi
-                </a>
-            @endif
+           
         </div>
-    </x-slot>
+    </x-slot> --}}
 
-    <div class="py-12">
+    <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
                     <!-- Filters Section -->
-                    <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Year Dropdown -->
-                        <div>
-                            <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Pilih Tahun</label>
-                            <select id="year" name="year" 
-                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                                onchange="location.href='?year=' + this.value">
-                                <option value="">Pilih Tahun</option>
-                                @foreach ($availableYears as $year)
-                                    <option value="{{ $year->year }}" {{ $selectedYear == $year->year ? 'selected' : '' }}>
-                                        {{ $year->year }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Month Dropdown -->
-                        @if ($selectedYear)
+                    <div class="mb-6">
+                        <div class="flex flex-wrap items-center gap-4">
+                            <!-- Dropdown Tahun -->
+                            <div>
+                                <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
+                                <select id="tahun" name="tahun" 
+                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                                        onchange="location.href='?year=' + this.value">
+                                    <option value="2023" {{ $selectedYear == 2023 ? 'selected' : '' }}>2023</option>
+                                    <option value="2024" {{ $selectedYear == 2024 ? 'selected' : '' }}>2024</option>
+                                    <option value="2025" {{ $selectedYear == 2025 ? 'selected' : '' }}>2025</option>
+                                </select>
+                            </div>
+                    
+                            <!-- Tambah Transaksi Button -->
+                            @if (Auth::user()->role == 'operator')
+                            <div>
+                                <a href="{{ route('laporan.create') }}" 
+                                   class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg shadow-md focus:outline-none transition duration-200">
+                                    + Tambah Transaksi
+                                </a>
+                            </div>
+                            @endif
+                    
+                            <!-- Dropdown Bulan -->
+                            @if ($selectedYear)
                             <div>
                                 <label for="month" class="block text-sm font-medium text-gray-700 mb-1">Pilih Bulan</label>
                                 <select id="month" name="month" 
-                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                                     onchange="location.href='?year={{ $selectedYear }}&month=' + this.value">
                                     <option value="">Pilih Bulan</option>
                                     @foreach ($availableMonths as $month)
@@ -56,14 +58,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                        @endif
-
-                        <!-- Week Dropdown -->
-                        @if ($selectedYear && $selectedMonth)
+                            @endif
+                    
+                            <!-- Dropdown Minggu -->
+                            @if ($selectedYear && $selectedMonth)
                             <div>
                                 <label for="week" class="block text-sm font-medium text-gray-700 mb-1">Pilih Minggu</label>
                                 <select id="week" name="week" 
-                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                                     onchange="location.href='?year={{ $selectedYear }}&month={{ $selectedMonth }}&week=' + this.value">
                                     <option value="">Pilih Minggu</option>
                                     @foreach ($availableWeeks as $week)
@@ -73,8 +75,10 @@
                                     @endforeach
                                 </select>
                             </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
+                    
 
                     <!-- Transaction Summary Section -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">

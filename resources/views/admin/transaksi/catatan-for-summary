@@ -1,0 +1,54 @@
+Solusi dan Perbaikan
+Pastikan Variabel Dikirim ke View Blade
+
+Pastikan $selectedYear, $selectedMonth, $availableMonths, dan $availableWeeks tersedia di controller atau komponen yang memanggil view ini.
+Contoh pengiriman data di Controller:
+php
+Copy code
+public function index(Request $request)
+{
+    $selectedYear = $request->query('year') ?? date('Y');
+    $selectedMonth = $request->query('month') ?? null;
+    $selectedWeek = $request->query('week') ?? null;
+
+    $availableMonths = collect([
+        (object)['month' => 1, 'month_name' => 'Januari'],
+        (object)['month' => 2, 'month_name' => 'Februari'],
+        (object)['month' => 3, 'month_name' => 'Maret'],
+        // ... data bulan lainnya
+    ]);
+
+    $availableWeeks = $selectedMonth ? collect([
+        (object)['week' => 1, 'start_date' => '2023-01-01', 'end_date' => '2023-01-07'],
+        (object)['week' => 2, 'start_date' => '2023-01-08', 'end_date' => '2023-01-14'],
+        // ... data minggu lainnya
+    ]) : collect([]);
+
+    return view('laporan.index', compact('selectedYear', 'selectedMonth', 'selectedWeek', 'availableMonths', 'availableWeeks'));
+}
+Debug Blade untuk Variabel
+
+Tambahkan debug sederhana di view untuk memastikan data tersedia:
+php
+Copy code
+@if ($selectedYear)
+    <p>Selected Year: {{ $selectedYear }}</p>
+@else
+    <p>Selected Year is not set</p>
+@endif
+
+@if (!empty($availableMonths))
+    <p>Bulan tersedia: {{ count($availableMonths) }}</p>
+@else
+    <p>No months available</p>
+@endif
+
+Periksa Hasil
+
+Dropdown bulan hanya muncul jika $selectedYear tersedia.
+Dropdown minggu hanya muncul jika $selectedYear dan $selectedMonth tersedia.
+Catatan
+Jika dropdown masih tidak muncul:
+
+Pastikan variabel $selectedYear, $availableMonths, dan $availableWeeks tersedia.
+Gunakan debug di Blade untuk memeriksa apakah variabel berisi data seperti yang diharapkan.
