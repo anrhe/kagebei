@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>KGBI-ADM</title>
+        <title>BAPTIS</title>
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -17,38 +17,50 @@
     <body class="font-sans antialiased">
         <div>
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-<header class="grid grid-cols-3 items-center gap-2 py-10">
-    <!-- Title KADM -->
-    <div class="flex items-center col-span-2 lg:col-span-1">
-        <h2 class="text-xl font-semibold text-black">KADM (KGBI Admin & Finance Manager)</h2>
-    </div>
-
-    <!-- Kolom Tengah Kosong -->
-    <div class="hidden lg:block"></div>
-
-    <!-- Tombol Masuk -->
-    @if (Route::has('login'))
-        <div class="flex items-center justify-end col-span-1">
-            <nav>
-                @auth
-                    <a
-                        href="{{ route('login') }}"
-                        class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
-                    >Login</a>
-                @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 transition hover:text-black/70 focus:outline-none"
-                        style="background-color: #a6c4ff !important;"
-                    >Masuk</a>
-                @endauth
-            </nav>
-        </div>
-    @endif
-</header>
-   
+                <header class="flex items-center px-4 lg:px-8">
+                    <!-- Title App -->
+                    <div class="flex items-center">
+                        <h1 style="font-size: 4rem; 
+                                   color: #a6c4ff; 
+                                   font-weight: bold; 
+                                   text-shadow: 3px 3px 0px rgb(36, 65, 111); 
+                                   margin-right: 1rem; 
+                                   white-space: nowrap;">
+                            BAPTIS
+                        </h1>      
+                        <h6 style="font-size: 0.700rem; 
+                                   color: #0B202B; 
+                                   line-height: 1.0;">
+                            Basis <br>
+                            Administrasi dan <br>
+                            Pengelolaan <br>
+                            Terpadu <br>
+                            Informasi Jemaat dan <br>
+                            Sistem Keuangan
+                        </h6>
+                    </div>
+                
+                    <!-- Tombol Masuk -->
+                    @if (Route::has('login'))
+                        <nav style="margin-left: auto;">
+                            @auth
+                                <a
+                                    href="{{ route('login') }}"
+                                    class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
+                                >Login</a>
+                            @else
+                                <a
+                                    href="{{ route('login') }}"
+                                    class="rounded-md px-3 py-2 text-black text-sm lg:text-base ring-1 transition hover:text-black/70 focus:outline-none"
+                                    style="background-color: #a6c4ff !important;">
+                                    Masuk
+                                </a>
+                            @endauth
+                        </nav>
+                    @endif
+                </header>
+                        
       </div>
-            
                 <main class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
 
@@ -65,8 +77,6 @@
                                     <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
                                         
                                         <div class="pt-3 sm:pt-5 lg:pt-0">
-                                            {{-- <h2 class="text-xl font-semibold text-black">KADM (KGBI Admin & Finance Manager)</h2> --}}
-                                           
                                             <p class="mt-4 text-sm/relaxed">
                                                 Mengelola keanggotaan dan keuangan secara efisien, memastikan transparansi dan akurasi dengan solusi terintegrasi.
                                             </p>
