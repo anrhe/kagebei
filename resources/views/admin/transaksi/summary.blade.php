@@ -1,84 +1,70 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <!-- Back Button -->
-            <a href="{{ url('/beranda') }}" 
-                class="text-gray-800 hover:text-gray-600 transition duration-200 flex items-center focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                <span class="font-medium">{{ __('Kembali') }}</span>
-            </a>
-           
-        </div>
-    </x-slot> --}}
-
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
                     <!-- Filters Section -->
-                    <div class="mb-6">
-                        <div class="flex flex-wrap items-center gap-4">
-                            <!-- Dropdown Tahun -->
-                            <div>
-                                <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
-                                <select id="tahun" name="tahun" 
-                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-                                        onchange="location.href='?year=' + this.value">
-                                    <option value="2023" {{ $selectedYear == 2023 ? 'selected' : '' }}>2023</option>
-                                    <option value="2024" {{ $selectedYear == 2024 ? 'selected' : '' }}>2024</option>
-                                    <option value="2025" {{ $selectedYear == 2025 ? 'selected' : '' }}>2025</option>
-                                </select>
-                            </div>
-                    
-                            <!-- Tambah Transaksi Button -->
-                            @if (Auth::user()->role == 'operator')
-                            <div>
-                                <a href="{{ route('laporan.create') }}" 
-                                   class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg shadow-md focus:outline-none transition duration-200">
-                                    + Tambah Transaksi
-                                </a>
-                            </div>
-                            @endif
-                    
-                            <!-- Dropdown Bulan -->
-                            @if ($selectedYear)
-                            <div>
-                                <label for="month" class="block text-sm font-medium text-gray-700 mb-1">Pilih Bulan</label>
-                                <select id="month" name="month" 
-                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-                                    onchange="location.href='?year={{ $selectedYear }}&month=' + this.value">
-                                    <option value="">Pilih Bulan</option>
-                                    @foreach ($availableMonths as $month)
-                                        <option value="{{ $month->month }}" {{ $selectedMonth == $month->month ? 'selected' : '' }}>
-                                            {{ $month->month_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
-                    
-                            <!-- Dropdown Minggu -->
-                            @if ($selectedYear && $selectedMonth)
-                            <div>
-                                <label for="week" class="block text-sm font-medium text-gray-700 mb-1">Pilih Minggu</label>
-                                <select id="week" name="week" 
-                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-                                    onchange="location.href='?year={{ $selectedYear }}&month={{ $selectedMonth }}&week=' + this.value">
-                                    <option value="">Pilih Minggu</option>
-                                    @foreach ($availableWeeks as $week)
-                                        <option value="{{ $week->week }}" {{ $selectedWeek == $week->week ? 'selected' : '' }}>
-                                            {{ \Carbon\Carbon::parse($week->start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($week->end_date)->translatedFormat('d F Y') }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
+                    <div class="mb-6 bg-gray-100 p-4 rounded-lg flex flex-wrap items-center gap-4">
+                        <!-- Dropdown Tahun -->
+                        <div class="w-full sm:w-auto">
+                            <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
+                            <select id="year" name="year" 
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                                onchange="location.href='?year=' + this.value">
+                                <option value="">Pilih Tahun</option>
+                                @foreach ($availableYears as $year)
+                                    <option value="{{ $year->year }}" {{ $selectedYear == $year->year ? 'selected' : '' }}>
+                                        {{ $year->year }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+
+                        <!-- Dropdown Bulan -->
+                        @if ($selectedYear)
+                        <div class="w-full sm:w-auto">
+                            <label for="month" class="block text-sm font-medium text-gray-700">Bulan</label>
+                            <select id="month" name="month" 
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                                onchange="location.href='?year={{ $selectedYear }}&month=' + this.value">
+                                <option value="">Pilih Bulan</option>
+                                @foreach ($availableMonths as $month)
+                                    <option value="{{ $month->month }}" {{ $selectedMonth == $month->month ? 'selected' : '' }}>
+                                        {{ $month->month_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
+
+                        <!-- Dropdown Minggu -->
+                        @if ($selectedYear && $selectedMonth)
+                        <div class="w-full sm:w-auto">
+                            <label for="week" class="block text-sm font-medium text-gray-700">Minggu</label>
+                            <select id="week" name="week" 
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                                onchange="location.href='?year={{ $selectedYear }}&month={{ $selectedMonth }}&week=' + this.value">
+                                <option value="">Pilih Minggu</option>
+                                @foreach ($availableWeeks as $week)
+                                    <option value="{{ $week->week }}" {{ $selectedWeek == $week->week ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::parse($week->start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($week->end_date)->translatedFormat('d F Y') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
+
+                        <!-- Tambah Transaksi Button -->
+                        @if (Auth::user()->role == 'operator')
+                        <div class="ml-auto">
+                            <a href="{{ route('laporan.create') }}" 
+                                class="inline-block text-white bg-blue-500 hover:bg-blue-700 px-6 py-2 rounded-lg shadow-md focus:outline-none transition duration-200 whitespace-nowrap">
+                                    + Transaksi
+                            </a>
+                        </div>
+                        @endif
                     </div>
-                    
 
                     <!-- Transaction Summary Section -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
