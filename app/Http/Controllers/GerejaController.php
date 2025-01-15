@@ -40,7 +40,7 @@ class GerejaController extends Controller
 
         Gereja::create($request->all());
 
-        return redirect()->route('admin.beranda')->with('success', 'Gereja berhasil ditambahkan.');
+        return redirect()->route('dashboard')->with('success', 'Gereja berhasil ditambahkan.');
     }
 
     /**

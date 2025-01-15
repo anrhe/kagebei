@@ -50,7 +50,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/beranda', function () {
         return view('admin.beranda');
-    })->name('admin.beranda');
+    })->name('dashboard');
     Route::get('/informasi', [PengumumanController::class, 'index'])->name('pengumuman');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
