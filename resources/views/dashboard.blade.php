@@ -1,10 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Informasi') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
@@ -27,20 +21,80 @@
                 </div>
 
                 <!-- Tab Content -->
-                <div id="page-1" class="p-6 hidden">
-                    <h3 class="font-semibold text-lg mb-4">Laporan Keuangan Terkini</h3>
-                    <p>Konten untuk Sub-Halaman 1 masih kosong. Ini tampilan bulan terbaru dari keuangan, misalnya bulan Januari berarti laporan bulan Desember.</p>
+                <div id="page-1" class="p-6">
+                    <div class="flex justify-between">
+                        <!-- Title -->
+                        <h3 class="font-semibold text-lg">Laporan Keuangan Terkini</h3>
+
+                        <!-- Totals -->
+                        <div class="text-right">
+                            <h4 class="text-lg font-bold">Total</h4>
+                            <p class="text-green-600 font-bold">Pemasukan: Rp. {{ number_format($totalPemasukan, 2, ',', '.') }}</p>
+                            <p class="text-red-600 font-bold">Pengeluaran: Rp. {{ number_format($totalPengeluaran, 2, ',', '.') }}</p>
+                            <p class="text-blue-600 font-bold">Saldo: Rp. {{ number_format($saldo, 2, ',', '.') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Transactions Section -->
+                    <div class="flex flex-wrap gap-6">
+                        <!-- Pemasukan Table -->
+                        <div class="w-full md:w-1/2">
+                            <h4 class="font-bold text-lg mb-4">Pemasukan</h4>
+                            <table class="table-auto w-full border-collapse border border-gray-200 text-xs sm:text-sm">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="border px-4 py-2">Nama</th>
+                                        <th class="border px-4 py-2">Nominal</th>
+                                        <th class="border px-4 py-2">Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($pemasukan as $item)
+                                        <tr>
+                                            <td class="border px-4 py-2">{{ $item->nama }}</td>
+                                            <td class="border px-4 py-2">Rp. {{ number_format($item->nominal, 2, ',', '.') }}</td>
+                                            <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($item->tanggal)->format('d F Y') }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="border px-4 py-2 text-center">Tidak ada transaksi pemasukan</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pengeluaran Table -->
+                        <div class="w-full md:w-1/2">
+                            <h4 class="font-bold text-lg mb-4">Pengeluaran</h4>
+                            <table class="table-auto w-full border-collapse border border-gray-200 text-xs sm:text-sm">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="border px-4 py-2">Nama</th>
+                                        <th class="border px-4 py-2">Nominal</th>
+                                        <th class="border px-4 py-2">Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($pengeluaran as $item)
+                                        <tr>
+                                            <td class="border px-4 py-2">{{ $item->nama }}</td>
+                                            <td class="border px-4 py-2">Rp. {{ number_format($item->nominal, 2, ',', '.') }}</td>
+                                            <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($item->tanggal)->format('d F Y') }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="border px-4 py-2 text-center">Tidak ada transaksi pengeluaran</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="page-2" class="p-6 hidden">
                     <h3 class="font-semibold text-lg mb-4">Pengumuman</h3>
-                    <!-- Success Notification -->
-                    @if (session('success'))
-                        <div class="mb-4 bg-green-500 text-white px-4 py-2 rounded">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
                     <!-- Add Pengumuman Button -->
                     @if (Auth::user()->role !== 'user')
                         <div class="mb-4 text-right">
@@ -57,35 +111,10 @@
                                 <h4 class="text-lg font-bold text-gray-700 mb-2">{{ $item->judul }}</h4>
                                 <p class="text-sm text-gray-600">{!! $item->isi !!}</p>
                                 <p class="text-xs text-gray-500 mt-4">Tanggal: {{ $item->created_at->format('d M Y') }}</p>
-                                
-                                @if (Auth::user()->role !== 'user')
-                                    <div class="mt-4 flex justify-end gap-2">
-                                        <!-- Edit Button -->
-                                        <a href="{{ route('pengumuman.edit', $item->id) }}" 
-                                           class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 text-sm">
-                                            Edit
-                                        </a>
-                                        <!-- Delete Button -->
-                                        <form action="{{ route('pengumuman.destroy', $item->id) }}" method="POST" class="inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" 
-                                                    class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 text-sm"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')">
-                                                Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
                             </div>
                         @empty
                             <p class="text-gray-500 text-center">Tidak ada pengumuman yang tersedia.</p>
                         @endforelse
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="mt-6">
-                        {{ $pengumuman->links() }}
                     </div>
                 </div>
             </div>
@@ -111,6 +140,6 @@
                 }
             });
         }
-        showPage('page-2'); // Default to "Informasi" tab
+        showPage('page-1'); // Default to "Laporan Keuangan Terkini" tab
     </script>
 </x-app-layout>

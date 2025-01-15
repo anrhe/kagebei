@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
             $user = Auth::user();
             
             // Jika login berhasil, redirect ke beranda
-            return redirect()->route('admin.beranda')->with('success', 'Selamat datang!');
+            return redirect()->route('dashboard')->with('success', 'Selamat datang!');
         }
     
         // Jika login gagal, kembali ke halaman login dengan error

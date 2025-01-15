@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengumuman;
+use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -14,10 +16,29 @@ class PengumumanController extends Controller
      */
     public function index()
     {
-        $pengumuman = Pengumuman::orderBy('updated_at', 'desc')
-                            ->orderBy('created_at', 'desc')
+        $currentDate = Carbon::now();
+        $lastMonth = $currentDate->copy()->subMonth();
+        $startOfMonth = $lastMonth->startOfMonth()->toDateString();
+        $endOfMonth = $lastMonth->endOfMonth()->toDateString();
+
+        // Fetch pemasukan and pengeluaran transactions
+        $pemasukan = Transaksi::where('tipe', 'pemasukan')
+            ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->get();
+
+        $pengeluaran = Transaksi::where('tipe', 'pengeluaran')
+            ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->get();
+
+        // Calculate totals
+        $totalPemasukan = $pemasukan->sum('nominal');
+        $totalPengeluaran = $pengeluaran->sum('nominal');
+        $saldo = $totalPemasukan - $totalPengeluaran;
+
+        $pengumuman = Pengumuman::orderBy('created_at', 'desc')
+                            ->orderBy('updated_at', 'desc')
                             ->paginate(10);
-        return view('dashboard', compact('pengumuman'));
+        return view('dashboard', compact('pengumuman', 'pemasukan', 'pengeluaran', 'totalPemasukan', 'totalPengeluaran', 'saldo', 'lastMonth'));
     }
 
     /**
