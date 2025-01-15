@@ -22,8 +22,8 @@
                     <x-nav-link :href="route('laporan.summary')" :active="request()->routeIs('laporan.summary')">
                         {{ __('Keuangan') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Laporan') }}
+                    <x-nav-link :href="route('pengumuman')" :active="request()->routeIs('pengumuman')">
+                        {{ __('Pengumuman') }}
                     </x-nav-link>
                 </div>
             </div>

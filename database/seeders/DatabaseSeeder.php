@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\AsalGereja;
 use App\Models\Gereja;
 use App\Models\Keanggotaan;
+use App\Models\Pengumuman;
 use App\Models\Transaksi;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -60,5 +61,8 @@ class DatabaseSeeder extends Seeder
             'id_gereja' => $chosenGerejaId, // Use the same $chosenGerejaId
         ]);
         echo "Transaksi instances created\n";
+
+        Pengumuman::factory(15)->create();
+        echo "Pengumuman instances created\n";
     }
 }

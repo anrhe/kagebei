@@ -106,7 +106,7 @@
                                             <div class="flex justify-center gap-2">
                                                 <!-- Edit Button -->
                                                 <a href="{{ route('laporan.edit', $transaction->id) }}" 
-                                                class="flex items-center bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm">
+                                                class="flex items-center bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-md shadow-sm text-sm">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m4-4h-2a6 6 0 100 12h2a6 6 0 100-12z" />
                                                     </svg>
