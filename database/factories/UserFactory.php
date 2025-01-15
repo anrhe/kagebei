@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'id_gereja' => $gereja->id,
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make('password123'),
             'remember_token' => Str::random(10),
         ];
     }

@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->belongsTo(Gereja::class, 'id_gereja');
     }
 
+    public function pengumuman()
+    {
+        return $this->hasMany(Pengumuman::class, 'id_pengguna');
+    }
+
     public static function getAllUsersExceptCurrentUser($loggedInUser)
     {
         return User::where('id', '!=', $loggedInUser)->get();
