@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request as HttpRequest; // Import the Request class
+use Illuminate\Http\Request; // Import the Request class
 use App\Models\Keanggotaan;
 use App\Http\Requests\StoreKeanggotaanRequest;
 use App\Http\Requests\UpdateKeanggotaanRequest;
+use App\Imports\KeanggotaanImport;
 use App\Models\Gereja;
 use Illuminate\Support\Facades\Auth;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class KeanggotaanController extends Controller
 {
@@ -21,7 +22,7 @@ class KeanggotaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(HttpRequest $request)
+    public function index(Request $request)
     {
         $gerejaId = Auth::user()->id_gereja;
 
@@ -154,6 +155,33 @@ class KeanggotaanController extends Controller
             return redirect()->route('admin.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
         } else {
             return redirect()->route('admin.gereja.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
+        }
+    }
+
+
+    public function import(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate(
+            [
+                'file' => 'required|mimes:csv,xlsx,xls|max:2048',
+            ],
+            [
+                'file.required' => 'Tolong masukan file terlebih dahulu.', // Custom message for 'required'
+                'file.mimes'    => 'Format file harus berupa CSV, XLSX, atau XLS.', // Custom message for 'mimes'
+                'file.max'      => 'Ukuran file tidak boleh lebih dari 2MB.', // Custom message for 'max'
+            ]
+        );
+    
+
+        try {
+            $idGereja = Auth::user()->id_gereja;
+            // Import the data using Laravel Excel
+            Excel::import(new KeanggotaanImport($idGereja), $request->file('file'));
+
+            return back()->with('success', 'Data anggota berhasil diunggah dan disimpan ke database.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }
