@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>KADM</title>
+        <title>BAPTIS</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +20,23 @@
                 <a href="/">
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                 </a>
-                <h2 class="text-xl font-semibold">KADM (KGBI Admin & Finance Manager)</h2>
+                <!-- Title App -->
+                <div class="flex items-center">
+                    <h1 style="font-size: 2rem; 
+                               color: #a6c4ff; 
+                               font-weight: bold; 
+                               text-shadow: 1px 1px 0px rgb(36, 65, 111); 
+                               margin-right: 0.5rem; 
+                               white-space: nowrap;">
+                        BAPTIS
+                    </h1>      
+                    <p style="font-size: 1rem; 
+                               color: #0B202B; 
+                               line-height: 1.0;">
+                        Basis Administrasi dan Pengelolaan Terpadu <br>
+                        Informasi Jemaat dan Sistem Keuangan
+                </p>
+                </div>
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">

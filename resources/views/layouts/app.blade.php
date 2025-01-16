@@ -18,25 +18,30 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             <!-- Navigation -->
-            @if (Auth::user()->role === 'admin') 
-                @include('admin.naviadmin') <!-- Navigation khusus admin -->
-            @else
-                @include('layouts.navigation') <!-- Navigation untuk pengguna lain -->
-            @endif
+            <div class="fixed top-0 left-0 w-full z-50 bg-white shadow">
+                @if (Auth::user()->role === 'admin') 
+                    @include('admin.naviadmin') <!-- Navigation khusus admin -->
+                @else
+                    @include('layouts.navigation') <!-- Navigation untuk pengguna lain -->
+                @endif
+            </div>
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            <!-- Memberikan Ruang untuk Navbar -->
+            <div class="pt-16"> <!-- Tambahkan padding untuk menghindari konten tertutup navbar -->
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
     </body>
 </html>

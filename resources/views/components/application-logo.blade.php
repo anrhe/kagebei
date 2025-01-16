@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 400" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 90 650 300" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
   <!-- Grafik Batang -->
   <rect x="50" y="190" width="40" height="150" fill="#a6c4ff" />
   <rect x="110" y="220" width="40" height="120" fill="#a6c4ff" />

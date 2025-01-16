@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        {{ __('Lupa password? Tenang saja. Tulis email anda dan akan kami konfirmsikan ke admin agar anda dapat mereset password anda dan membuat password baru.') }}
     </div>
 
     <!-- Session Status -->
@@ -17,9 +17,18 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
+            <x-primary-button onclick="redirectWithAlert()">
+                {{ __('Kirim Email Anda') }}
             </x-primary-button>
         </div>
+        
+        <script>
+            function redirectWithAlert() {
+                // Arahkan ke halaman "welcome" dengan query string
+                window.location.href = "/welcome?alert=true";
+            }
+        </script>
+        
+        
     </form>
 </x-guest-layout>
