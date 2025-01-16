@@ -14,7 +14,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnggotaController;
 
-
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -24,8 +23,6 @@ Route::middleware(['role:admin', 'log'])->group(function () {
     Route::get('/admin/list-pengguna', [UserController::class, 'listPengguna'])->name('admin.list.pengguna');
     Route::resource('pengguna', UserController::class);
 });
-
-Route::post('/anggota/import', [AnggotaController::class, 'import'])->name('anggota.import');
 
 Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
     Route::get('/gereja/jemaat', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
@@ -40,6 +37,7 @@ Route::middleware(['role:admin,operator', 'log'])->group(function () {
 Route::middleware(['role:operator,gembala', 'log'])->group(function () {
     Route::resource('transaksi', TransaksiController::class);
     Route::resource('pengumuman', PengumumanController::class);
+    Route::post('/anggota/import', [KeanggotaanController::class, 'import'])->name('anggota.import');
 });
 
 Route::middleware(['role:operator', 'log'])->group(function () {
