@@ -1,16 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center">
-            <!-- Back Button -->
-            <button onclick="window.history.back()" 
-                class="text-gray-800 hover:text-gray-600 transition duration-200 flex items-center focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                <span class="font-medium">{{ __('Kembali') }}</span>
-            </button>
-        </div>
-    </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -20,6 +8,10 @@
                     <form action="{{ route('pengguna.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
+                            <h2 class="font-semibold text-xl mt-6 pb-2 text-gray-800 leading-tight inline-block border-b-2 border-gray-500 mb-4">
+                                {{ __('Tambah Pengguna') }}
+                            </h2>
+                            
                             <label for="name" class="block font-medium text-sm text-gray-700">Nama</label>
                             <input type="text" name="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                             @error('name')
@@ -70,12 +62,27 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Simpan
-                        </button>
+                        <div class="flex items-center justify-between">
+                            <!-- Back Button -->
+                            <button onclick="window.history.back()" 
+                                class="text-gray-800 hover:text-gray-600 transition duration-200 flex items-center focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            
+                            <!-- Save Button -->
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Simpan
+                            </button>
+                        </div>
                     </form>
+
                 </div>
             </div>
         </div>
+        <footer class="py-10 text-center text-sm" style="color: #a2abbd !important;">
+            BAPTIS v1.0 Initial Release
+        </footer>
     </div>
 </x-app-layout>

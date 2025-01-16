@@ -3,6 +3,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                     <!-- Filters Section -->
                     <div class="mb-6 bg-gray-100 p-4 rounded-lg flex flex-wrap items-center gap-4">
@@ -82,118 +83,118 @@
                         </div>
                     </div>
 
-                    <!-- Transaction Details Section -->
-                    <h4 class="font-extrabold text-lg mb-4">Detail Pemasukan</h4>
-                    <table class="table-auto w-full border border-gray-200 mb-6">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 border bg-gray-100">Nama</th>
-                                <th class="px-4 py-2 border bg-gray-100">Nominal</th>
-                                <th class="px-4 py-2 border bg-gray-100">Tanggal</th>
-                                @if (Auth::user()->role == 'operator')
-                                    <th class="px-4 py-2 border bg-gray-100">Aksi</th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($incomeTransactions as $transaction)
-                                <tr>
-                                    <td class="px-4 py-2 border">{{ $transaction->nama }}</td>
-                                    <td class="px-4 py-2 border">Rp. {{ number_format($transaction->nominal, 0, ',', '.') }}</td>
-                                    <td class="px-4 py-2 border">{{ $transaction->tanggal }}</td>
-                                    @if (Auth::user()->role == 'operator')
-                                        <td class="px-4 py-2 border text-center">
-                                            <div class="flex justify-center gap-2">
-                                                <!-- Edit Button -->
-                                                <a href="{{ route('laporan.edit', $transaction->id) }}" 
-                                                class="flex items-center bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-md shadow-sm text-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m4-4h-2a6 6 0 100 12h2a6 6 0 100-12z" />
-                                                    </svg>
-                                                    Edit
-                                                </a>
-                                        
-                                                <!-- Delete Button -->
-                                                <form action="{{ route('laporan.destroy', $transaction->id) }}" method="POST" class="inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" 
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?')" 
-                                                            class="flex items-center bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m8-4H8m8 8H8m4 4H8m8-8H8" />
-                                                        </svg>
-                                                        Hapus
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    @endif                                    
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center px-4 py-2 border">Tidak ada pemasukan untuk periode ini.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                    <div class="mb-6">
+                        <h4 class="font-extrabold text-lg mb-4">Grafik Pemasukan dan Pengeluaran</h4>
+                        <canvas id="incomeExpenseChart" height="100"></canvas>
+                    </div>
+                    
+                    
+                   <!-- Section untuk Detail Pemasukan dan Pengeluaran -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <!-- Tabel Pemasukan -->
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h4 class="font-extrabold text-lg mb-4">Detail Pemasukan</h4>
+        <table class="table-auto w-full border border-gray-200 text-sm">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border bg-gray-100">Nama</th>
+                    <th class="px-4 py-2 border bg-gray-100">Nominal</th>
+                    <th class="px-4 py-2 border bg-gray-100">Tanggal</th>
+                    @if (Auth::user()->role == 'operator')
+                        <th class="px-4 py-2 border bg-gray-100">Aksi</th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($incomeTransactions as $transaction)
+                    <tr>
+                        <td class="px-4 py-2 border">{{ $transaction->nama }}</td>
+                        <td class="px-4 py-2 border">Rp. {{ number_format($transaction->nominal, 0, ',', '.') }}</td>
+                        <td class="px-4 py-2 border">{{ $transaction->tanggal }}</td>
+                        @if (Auth::user()->role == 'operator')
+                            <td class="px-4 py-2 border text-center">
+                                <div class="flex justify-center gap-2">
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('laporan.edit', $transaction->id) }}" 
+                                       class="flex items-center bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-md shadow-sm text-sm">
+                                        Edit
+                                    </a>
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('laporan.destroy', $transaction->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?')" 
+                                                class="flex items-center bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        @endif
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center px-4 py-2 border">Tidak ada pemasukan untuk periode ini.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-                    <h4 class="font-extrabold text-lg mb-4">Detail Pengeluaran</h4>
-                    <table class="table-auto w-full border border-gray-200">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 border bg-gray-100">Nama</th>
-                                <th class="px-4 py-2 border bg-gray-100">Nominal</th>
-                                <th class="px-4 py-2 border bg-gray-100">Tanggal</th>
-                                @if (Auth::user()->role == 'operator')
-                                    <th class="px-4 py-2 border bg-gray-100">Aksi</th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($expenseTransactions as $transaction)
-                                <tr>
-                                    <td class="px-4 py-2 border">{{ $transaction->nama }}</td>
-                                    <td class="px-4 py-2 border">Rp. {{ number_format($transaction->nominal, 0, ',', '.') }}</td>
-                                    <td class="px-4 py-2 border">{{ $transaction->tanggal }}</td>
-                                    @if (Auth::user()->role == 'operator')
-                                        <td class="px-4 py-2 border text-center">
-                                            <div class="flex justify-center gap-2">
-                                                <!-- Edit Button -->
-                                                <a href="{{ route('laporan.edit', $transaction->id) }}" 
-                                                class="flex items-center bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m4-4h-2a6 6 0 100 12h2a6 6 0 100-12z" />
-                                                    </svg>
-                                                    Edit
-                                                </a>
-                                        
-                                                <!-- Delete Button -->
-                                                <form action="{{ route('laporan.destroy', $transaction->id) }}" method="POST" class="inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" 
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?')" 
-                                                            class="flex items-center bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m8-4H8m8 8H8m4 4H8m8-8H8" />
-                                                        </svg>
-                                                        Hapus
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>  
-                                    @endif                                  
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center px-4 py-2 border">Tidak ada pengeluaran untuk periode ini.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>                    
-                </div>
+    <!-- Tabel Pengeluaran -->
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h4 class="font-extrabold text-lg mb-4">Detail Pengeluaran</h4>
+        <table class="table-auto w-full border border-gray-200 text-sm">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border bg-gray-100">Nama</th>
+                    <th class="px-4 py-2 border bg-gray-100">Nominal</th>
+                    <th class="px-4 py-2 border bg-gray-100">Tanggal</th>
+                    @if (Auth::user()->role == 'operator')
+                        <th class="px-4 py-2 border bg-gray-100">Aksi</th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($expenseTransactions as $transaction)
+                    <tr>
+                        <td class="px-4 py-2 border">{{ $transaction->nama }}</td>
+                        <td class="px-4 py-2 border">Rp. {{ number_format($transaction->nominal, 0, ',', '.') }}</td>
+                        <td class="px-4 py-2 border">{{ $transaction->tanggal }}</td>
+                        @if (Auth::user()->role == 'operator')
+                            <td class="px-4 py-2 border text-center">
+                                <div class="flex justify-center gap-2">
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('laporan.edit', $transaction->id) }}" 
+                                       class="flex items-center bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-md shadow-sm text-sm">
+                                        Edit
+                                    </a>
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('laporan.destroy', $transaction->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?')" 
+                                                class="flex items-center bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        @endif
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center px-4 py-2 border">Tidak ada pengeluaran untuk periode ini.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
             </div>
         </div>
     </div>
+    
 </x-app-layout>
