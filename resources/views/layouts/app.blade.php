@@ -18,7 +18,8 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             <!-- Navigation -->
-            <div class="fixed top-0 left-0 w-full z-50 bg-white shadow">
+            <div class="fixed top-0 left-0 w-full z-50 shadow bg-navbar text-white">
+
                 @if (Auth::user()->role === 'admin') 
                     @include('admin.naviadmin') <!-- Navigation khusus admin -->
                 @else

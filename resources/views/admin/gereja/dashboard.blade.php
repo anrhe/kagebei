@@ -8,29 +8,43 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <!-- Header Informasi Gereja -->
-                            <h3 class="text-bold font-extrabold text-2xl py-3">Informasi Gereja</h3>
+                            <h3 class="text-bold font-extrabold text-2xl  py-3 underline">Informasi Gereja</h3>
                     
                             <!-- Tombol Edit Informasi dan Kategorisasi -->
                             <div class="flex items-center space-x-2">
-                                @if (Auth::user()->role !== 'user')
+                                @if (Auth::user()->role !== 'pendeta')
                                     <!-- Tombol Edit Informasi Gereja -->
                                     <a href="{{ route('gereja.edit', $gereja->id) }}" 
-                                       class="text-white bg-blue-500 rounded-lg hover:bg-blue-700 px-3 py-2">
+                                       class="text-white bg-blue-400 rounded-lg hover:text-sky-950 hover:bg-sky-100 px-3 py-2">
                                         Edit Informasi Gereja
                                     </a>
                     
                                     <!-- Tombol Kategorisasi -->
                                     <button 
-                                        class="text-white bg-blue-500 rounded-lg hover:bg-blue-700 px-3 py-2" 
+                                        class=" text-white bg-sky-800 rounded-lg hover:text-sky-950 hover:bg-sky-100 px-3 py-2"
                                         onclick="toggleFilterSection()">
                                         Kategorisasi
                                     </button>
                                 @endif
                             </div>
                         </div>
-                    
+                        
+<!-- Tombol Import CSV/Excel -->
+<div class="mb-6">
+    <form action="{{ route('anggota.import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="flex items-center gap-4">
+            <input type="file" name="file" accept=".csv, .xlsx" class="block w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg cursor-pointer focus:outline-none">
+            <button type="submit" class="text-white bg-sky-800 rounded-lg px-4 py-2 hover:bg-sky-700">
+                Upload File
+            </button>
+        </div>
+    </form>
+</div>
+
+                        
                         <!-- Informasi Gereja -->
-                        <p class="text-sm sm:text-base"><strong>Nama :</strong> {{ $gereja->nama }}</p>
+                        <p class="text-sm sm:text-base"><strong>Tempat :</strong> {{ $gereja->nama }}</p>
                         <p class="text-sm sm:text-base"><strong>Alamat :</strong> {{ $gereja->alamat }}</p>
                         <p class="text-sm sm:text-base"><strong>Kontak :</strong> {{ $gereja->kontak }}</p>
                     </div>
@@ -102,10 +116,10 @@
                             </div>
                     
                             <div class="mt-4">
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
+                                <button type="submit" class="text-white bg-sky-800 rounded-lg hover:text-sky-950 hover:bg-sky-100 px-3 py-2">
                                     Filter
                                 </button>
-                                <a href="{{ route('admin.gereja.dashboard') }}" class="ml-2 text-gray-700 hover:underline">
+                                <a href="{{ route('admin.gereja.dashboard') }}" class="text-white bg-blue-400 rounded-lg hover:text-sky-950 hover:bg-sky-100 px-3 py-2">
                                     Reset
                                 </a>
                             </div>
@@ -124,7 +138,7 @@
                     <h3 class="text-bold text-center font-extrabold text-2xl py-3">
                         Daftar Anggota 
                         @if (Auth::user()->role !== 'user')
-                            <a href="{{ route('anggota.create') }}" class="text-white bg-blue-500 rounded-lg hover:bg-blue-700 mx-6 px-1">+</a>
+                            <a href="{{ route('anggota.create') }}" class="text-white bg-sky-800 rounded-lg hover:text-sky-950 hover:bg-sky-100 px-2 py-1">+</a>
                         @endif
                     </h3>
                     <div class="overflow-x-auto">
@@ -179,7 +193,7 @@
                     
 
                     <!-- Pagination Links for Anggota -->
-                    <div class="mt-4">
+                    <div class="mt-4 ">
                         {{ $keanggotaan->appends(request()->query())->links() }}
                     </div>
                 </div>

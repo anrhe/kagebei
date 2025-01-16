@@ -12,6 +12,7 @@ use App\Http\Middleware\RoleMiddleware;
 use App\Models\Pengumuman;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnggotaController;
 
 
 Route::get('/', function () {
@@ -24,6 +25,7 @@ Route::middleware(['role:admin', 'log'])->group(function () {
     Route::resource('pengguna', UserController::class);
 });
 
+Route::post('/anggota/import', [AnggotaController::class, 'import'])->name('anggota.import');
 
 Route::middleware(['role:operator,gembala,user', 'log'])->group(function () {
     Route::get('/gereja/jemaat', [BerandaController::class, 'dashboardAdminGereja'])->name('admin.gereja.dashboard');
