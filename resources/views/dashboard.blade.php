@@ -22,13 +22,23 @@
 
                 <!-- Tab Content -->
                 <div id="page-1" class="p-6">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center">
                         <!-- Title -->
                         <h3 class="font-semibold text-lg">Laporan Keuangan Terkini</h3>
-
-                        <!-- Totals -->
-                        <div class="text-right">
+                
+                        <!-- Download Button -->
+                        <a href="{{ route('laporan.pdf') }}" 
+                           class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition">
+                            Download PDF
+                        </a>
+                    </div>
+                
+                    <!-- Totals -->
+                    <div class="flex justify-between mt-4">
+                        <div>
                             <h4 class="text-lg font-bold">Total</h4>
+                        </div>
+                        <div class="text-right">
                             <p class="text-green-600 font-bold">Pemasukan: Rp. {{ number_format($totalPemasukan, 2, ',', '.') }}</p>
                             <p class="text-red-600 font-bold">Pengeluaran: Rp. {{ number_format($totalPengeluaran, 2, ',', '.') }}</p>
                             <p class="text-blue-600 font-bold">Saldo: Rp. {{ number_format($saldo, 2, ',', '.') }}</p>
@@ -111,6 +121,25 @@
                                 <h4 class="text-lg font-bold text-gray-700 mb-2">{{ $item->judul }}</h4>
                                 <p class="text-sm text-gray-600">{!! $item->isi !!}</p>
                                 <p class="text-xs text-gray-500 mt-4">Tanggal: {{ $item->created_at->format('d M Y') }}</p>
+                                @if (Auth::user()->role !== 'user')
+                                    <div class="mt-4 flex justify-end gap-2">
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('pengumuman.edit', $item->id) }}" 
+                                           class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 text-sm">
+                                            Edit
+                                        </a>
+                                        <!-- Delete Button -->
+                                        <form action="{{ route('pengumuman.destroy', $item->id) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" 
+                                                    class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 text-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
                             </div>
                         @empty
                             <p class="text-gray-500 text-center">Tidak ada pengumuman yang tersedia.</p>

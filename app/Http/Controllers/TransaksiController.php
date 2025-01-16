@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTransaksiRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiController extends Controller
 {
@@ -182,4 +183,47 @@ class TransaksiController extends Controller
             'selectedWeek' => $selectedWeek,
         ]);
     }    
+
+    public function downloadLaporan()
+    {
+        $currentDate = Carbon::now();
+        $lastMonth = $currentDate->copy()->subMonth();
+        $startOfMonth = $lastMonth->startOfMonth()->toDateString();
+        $endOfMonth = $lastMonth->endOfMonth()->toDateString();
+
+        // Fetch pemasukan and pengeluaran transactions
+        $pemasukan = Transaksi::where('tipe', 'pemasukan')
+            ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->get();
+
+        $pengeluaran = Transaksi::where('tipe', 'pengeluaran')
+            ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->get();
+
+        // Calculate totals
+        $totalPemasukan = $pemasukan->sum('nominal');
+        $totalPengeluaran = $pengeluaran->sum('nominal');
+        $saldo = $totalPemasukan - $totalPengeluaran;
+
+        $namaGereja = Auth::user()->gereja->nama;
+
+        // Format the file name
+        $monthNameYear = $lastMonth->format('F_Y'); // e.g., "December_2024"
+        $fileName = 'laporan_keuangan_' . str_replace(' ', '-', $namaGereja) . '_' . $monthNameYear . '.pdf';
+
+        $data = [
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran,
+            'totalPemasukan' => $totalPemasukan,
+            'totalPengeluaran' => $totalPengeluaran,
+            'saldo' => $saldo,
+            'lastMonth' => $lastMonth,
+            'LastMonthYear' => $lastMonth->format('F Y'),
+            'downloadTime' => $currentDate->format('d F Y H:i:s')
+        ];
+
+        $pdf = Pdf::loadView('pdf', $data);
+
+        return $pdf->download($fileName);
+    }
 }
