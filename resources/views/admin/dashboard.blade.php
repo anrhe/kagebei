@@ -5,6 +5,9 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-bold font-extrabold text-2xl">Daftar Gereja</h3>
+                        <a href="{{ route('gereja.create') }}" class="text-white bg-blue-500 rounded-lg hover:bg-blue-700 px-4 py-2">
+                            Tambah Gereja +
+                        </a>
                     </div>
 
                     @foreach ($gerejas as $gereja)
@@ -79,13 +82,6 @@
                             </div>
                         </div>
                     @endforeach
-
-                    <!-- Tombol Tambahkan Gereja di Sudut Kanan Bawah -->
-                    <a href="{{ route('gereja.create') }}" 
-                       class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-lg">
-                        Tambah Gereja +
-                    </a>
-
                 </div>
             </div>
         </div>
