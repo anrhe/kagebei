@@ -46,7 +46,7 @@
                     </div>
 
                     <!-- Transactions Section -->
-                    <div class="flex flex-wrap gap-6">
+                    <div class="flex flex-wrap gap-2">
                         <!-- Pemasukan Table -->
                         <div class="w-full md:w-1/2">
                             <h4 class="font-bold text-lg mb-4">Pemasukan</h4>

@@ -88,38 +88,41 @@
                     </div>
 
                     <!-- Upload File Section -->
-                    <div class="mb-6">
-                        <div class="bg-blue-50 border border-blue-300 rounded-lg p-4 shadow-sm">
-                            <h3 class="text-lg font-semibold text-blue-700 mb-2">Upload File Anggota</h3>
-                            <p class="text-sm text-gray-700 mb-4">
-                                Unggah file CSV atau Excel untuk menambahkan data jemaat ke
-                                <span class="font-semibold">Gereja Anda</span>. Pastikan format kolom dalam file
-                                sesuai dengan data jemaat yang diminta.
-                            </p>
-                            <form action="{{ route('anggota.import') }}" method="POST" enctype="multipart/form-data"
-                                class="space-y-4">
-                                @csrf
-                                <div>
-                                    <label for="file"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Pilih File</label>
-                                    <input type="file" name="file" id="file" accept=".csv, .xlsx"
-                                        class="block w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    @if (Auth::user()->role !== 'user')
+                        
+                        <div class="mb-6">
+                            <div class="bg-blue-50 border border-blue-300 rounded-lg p-4 shadow-sm">
+                                <h3 class="text-lg font-semibold text-blueI9 YUU   -700 mb-2">Upload File Anggota</h3>
+                                <p class="text-sm text-gray-700 mb-4">
+                                    Unggah file CSV atau Excel untuk menambahkan data jemaat ke
+                                    <span class="font-semibold">Gereja Anda</span>. Pastikan format kolom dalam file
+                                    sesuai dengan data jemaat yang diminta.
+                                </p>
+                                <form action="{{ route('anggota.import') }}" method="POST" enctype="multipart/form-data"
+                                    class="space-y-4">
+                                    @csrf
+                                    <div>
+                                        <label for="file"
+                                            class="block text-sm font-medium text-gray-700 mb-1">Pilih File</label>
+                                        <input type="file" name="file" id="file" accept=".csv, .xlsx"
+                                            class="block w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-                                        <!-- Display validation error -->
-                                        @error('file')
-                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                                        @enderror
-                                </div>
-                                <div class="flex items-center justify-between py-2">
-                                    <button type="submit"
-                                        class="text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-5 py-2 text-sm font-medium shadow-md">
-                                        Upload File
-                                    </button>
-                                    <p class="text-xs text-gray-500">Format file: .csv, .xlsx</p>
-                                </div>
-                            </form>
+                                            <!-- Display validation error -->
+                                            @error('file')
+                                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                    </div>
+                                    <div class="flex items-center justify-between py-2">
+                                        <button type="submit"
+                                            class="text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-5 py-2 text-sm font-medium shadow-md">
+                                            Upload File
+                                        </button>
+                                        <p class="text-xs text-gray-500">Format file: .csv, .xlsx</p>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <!-- Anggota Section -->
                     <h3 class="text-bold text-center font-extrabold text-2xl py-3">
@@ -190,4 +193,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-app-layout>;P

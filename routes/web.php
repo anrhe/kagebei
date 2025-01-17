@@ -44,10 +44,6 @@ Route::middleware(['role:operator', 'log'])->group(function () {
     Route::resource('laporan', TransaksiController::class);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/beranda', function () {
         return view('admin.beranda');

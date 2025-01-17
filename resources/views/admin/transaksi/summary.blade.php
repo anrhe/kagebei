@@ -23,7 +23,6 @@
                         </div>
 
                         <!-- Dropdown Bulan -->
-                        @if ($selectedYear)
                         <div class="w-full sm:w-auto">
                             <label for="month" class="block text-sm font-medium text-gray-700">Bulan</label>
                             <select id="month" name="month" 
@@ -37,10 +36,8 @@
                                 @endforeach
                             </select>
                         </div>
-                        @endif
 
                         <!-- Dropdown Minggu -->
-                        @if ($selectedYear && $selectedMonth)
                         <div class="w-full sm:w-auto">
                             <label for="week" class="block text-sm font-medium text-gray-700">Minggu</label>
                             <select id="week" name="week" 
@@ -54,7 +51,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        @endif
 
                         <!-- Tambah Transaksi Button -->
                         @if (Auth::user()->role == 'operator')
