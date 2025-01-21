@@ -8,7 +8,7 @@
                     <!-- Filters Section -->
                     <div class="mb-6 bg-gray-100 p-4 rounded-lg flex flex-wrap items-center gap-4">
                         <!-- Dropdown Tahun -->
-                        <div class="w-full sm:w-auto">
+                        <div class="flex-1 min-w-[150px]">
                             <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
                             <select id="year" name="year" 
                                 class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
@@ -23,10 +23,10 @@
                         </div>
 
                         <!-- Dropdown Bulan -->
-                        <div class="w-full sm:w-auto">
+                        <div class="flex-1 min-w-[150px]">
                             <label for="month" class="block text-sm font-medium text-gray-700">Bulan</label>
                             <select id="month" name="month" 
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 onchange="location.href='?year={{ $selectedYear }}&month=' + this.value">
                                 <option value="">Pilih Bulan</option>
                                 @foreach ($availableMonths as $month)
@@ -38,10 +38,10 @@
                         </div>
 
                         <!-- Dropdown Minggu -->
-                        <div class="w-full sm:w-auto">
+                        <div class="flex-1 min-w-[150px]">
                             <label for="week" class="block text-sm font-medium text-gray-700">Minggu</label>
                             <select id="week" name="week" 
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 onchange="location.href='?year={{ $selectedYear }}&month={{ $selectedMonth }}&week=' + this.value">
                                 <option value="">Pilih Minggu</option>
                                 @foreach ($availableWeeks as $week)

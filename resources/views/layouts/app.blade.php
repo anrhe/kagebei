@@ -30,7 +30,6 @@
             </div>
 
             <!-- Memberikan Ruang untuk Navbar -->
-            <div class="pt-16"> <!-- Tambahkan padding untuk menghindari konten tertutup navbar -->
                 <!-- Page Heading -->
                 @isset($header)
                     <header class="bg-white shadow">
