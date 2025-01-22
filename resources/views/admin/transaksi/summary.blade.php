@@ -80,8 +80,24 @@
 
                     <!-- Table Section -->
                     <div x-show="showTable" x-cloak>
+                        <!-- Transaction Summary Section -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                            <div class="p-4 bg-green-500 border border-green-300 rounded-lg text-center">
+                                <h4 class="font-extrabold text-xl text-green-700">Total Pemasukan</h4>
+                                <p class="text-lg">Rp. {{ number_format($totalIncome, 0, ',', '.') }}</p>
+                            </div>
+                            <div class="p-4 bg-red-100 border border-red-300 rounded-lg text-center">
+                                <h4 class="font-extrabold text-xl text-red-700">Total Pengeluaran</h4>
+                                <p class="text-lg">Rp. {{ number_format($totalExpense, 0, ',', '.') }}</p>
+                            </div>
+                            <div class="p-4 bg-blue-100 border border-blue-300 rounded-lg text-center">
+                                <h4 class="font-extrabold text-xl text-blue-700">Saldo Akhir</h4>
+                                <p class="text-lg">Rp. {{ number_format($balance, 0, ',', '.') }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Tabel Pemasukan -->
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <!-- Tabel Pemasukan -->
                             <div class="bg-white p-4 rounded-lg shadow">
                                 <h4 class="font-extrabold text-lg mb-4">Detail Pemasukan</h4>
                                 <table class="table-auto w-full border border-gray-200 text-sm">
