@@ -32,8 +32,8 @@
                         <div class="mb-4">
                             <label for="tipe" class="block font-medium text-sm text-gray-700">Tipe</label>
                             <select name="tipe" id="tipe" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-                                <option value="pemasukan" {{ $laporan->tipe === 'pemasukan' ? 'selected' : '' }}>Pemasukan</option>
-                                <option value="pengeluaran" {{ $laporan->tipe === 'pengeluaran' ? 'selected' : '' }}>Pengeluaran</option>
+                                <option value="Pemasukan" {{ $laporan->tipe === 'Pemasukan' ? 'selected' : '' }}>Pemasukan</option>
+                                <option value="Pengeluaran" {{ $laporan->tipe === 'Pengeluaran' ? 'selected' : '' }}>Pengeluaran</option>
                             </select>
                             @error('tipe')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>

@@ -30,8 +30,8 @@
                         <div class="mb-4">
                             <label for="tipe" class="block font-medium text-sm text-gray-700">Tipe</label>
                             <select name="tipe" id="tipe" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <option value="pemasukan">Pemasukan</option>
-                                <option value="pengeluaran">Pengeluaran</option>
+                                <option value="Pemasukan">Pemasukan</option>
+                                <option value="Pengeluaran">Pengeluaran</option>
                             </select>
                             @error('tipe')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -47,9 +47,9 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="created_at" class="block font-medium text-sm text-gray-700">Tanggal Transaksi</label>
-                            <input type="date" name="created_at" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-                            @error('created_at')
+                            <label for="tanggal" class="block font-medium text-sm text-gray-700">Tanggal Transaksi</label>
+                            <input type="date" name="tanggal" id="tanggal" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                            @error('tanggal')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>

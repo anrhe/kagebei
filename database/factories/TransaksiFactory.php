@@ -20,17 +20,17 @@ class TransaksiFactory extends Factory
     public function definition(): array
     {
         $transactionTypes = [
-            'Pembelian bahan makanan' => 'pengeluaran',
-            'Pembayaran listrik' => 'pengeluaran',
-            'Donasi' => 'pemasukan',
-            'Uang syukuran' => 'pemasukan',
-            'Persembahan' => 'pemasukan',
-            'Aksi Dana' => 'pemasukan',
-            'Perpuluhan' => 'pemasukan',
-            'Persembahan Pendalaman Alkitab' => 'pemasukan',
-            'Sampul Sumbangan' => 'pemasukan',
-            'Biaya pemeliharaan' => 'pengeluaran',
-            'Pembelian peralatan gereja' => 'pengeluaran',
+            'Pembelian bahan makanan' => 'Pengeluaran',
+            'Pembayaran listrik' => 'Pengeluaran',
+            'Donasi' => 'Pemasukan',
+            'Uang syukuran' => 'Pemasukan',
+            'Persembahan' => 'Pemasukan',
+            'Aksi Dana' => 'Pemasukan',
+            'Perpuluhan' => 'Pemasukan',
+            'Persembahan Pendalaman Alkitab' => 'Pemasukan',
+            'Sampul Sumbangan' => 'Pemasukan',
+            'Biaya pemeliharaan' => 'Pengeluaran',
+            'Pembelian peralatan gereja' => 'Pengeluaran',
         ];
 
         $nama = $this->faker->randomKey($transactionTypes);

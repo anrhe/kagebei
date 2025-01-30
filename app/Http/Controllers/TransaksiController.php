@@ -33,20 +33,23 @@ class TransaksiController extends Controller
      */
     public function store(StoreTransaksiRequest $request)
     {
+        info('Processing to insert with request : ' . json_encode($request->all()));
         $request->validate([
             'nama' => 'required|string|max:255',
             'tipe' => 'required|in:Pemasukan,Pengeluaran',
             'nominal' => 'required|numeric',
-            'created_at' => 'required|date',
+            'tanggal' => 'required|date',
             // You can add other validations if needed
         ]);
 
         $request->merge(['id_gereja' => Auth::user()->id_gereja]);
+        info('Merged request : ' . json_encode($request->all()));
 
         // Create the laporan and assign the logged-in user's id_gereja
         Transaksi::create($request->all());
+        info('Laporan created successfully');
 
-        return redirect()->route('admin.gereja.dashboard')->with('success', 'Laporan berhasil ditambahkan.');
+        return redirect()->route('laporan.summary')->with('success', 'Laporan berhasil ditambahkan.');
     }
 
     /**
@@ -79,7 +82,7 @@ class TransaksiController extends Controller
 
         $transaksi->update($request->validated());
 
-        return redirect()->route('admin.gereja.dashboard')->with('success', 'Laporan berhasil diperbarui.');
+        return redirect()->route('laporan.summary')->with('success', 'Laporan berhasil diperbarui.');
     }
 
     /**
@@ -89,7 +92,7 @@ class TransaksiController extends Controller
     {
         $transaksi->delete();
 
-        return redirect()->route('admin.gereja.dashboard')->with('success', 'Laporan berhasil dihapus.');
+        return redirect()->route('laporan.summary')->with('success', 'Laporan berhasil dihapus.');
     }
 
     public function summary(Request $request)
