@@ -24,10 +24,12 @@ class PengumumanController extends Controller
         // Fetch pemasukan and pengeluaran transactions
         $pemasukan = Transaksi::where('tipe', 'pemasukan')
             ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->orderBy('tanggal', 'desc')
             ->get();
 
         $pengeluaran = Transaksi::where('tipe', 'pengeluaran')
             ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->orderBy('tanggal', 'desc')
             ->get();
 
         // Calculate totals

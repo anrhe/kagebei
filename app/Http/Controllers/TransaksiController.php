@@ -155,8 +155,8 @@ class TransaksiController extends Controller
         }
     
         // Separate income and expense transactions
-        $incomeTransactions = (clone $query)->where('tipe', 'pemasukan')->orderBy('created_at', 'desc')->get();
-        $expenseTransactions = (clone $query)->where('tipe', 'pengeluaran')->orderBy('created_at', 'desc')->get();
+        $incomeTransactions = (clone $query)->where('tipe', 'pemasukan')->orderBy('tanggal', 'desc')->get();
+        $expenseTransactions = (clone $query)->where('tipe', 'pengeluaran')->orderBy('tanggal', 'desc')->get();
     
         // Format dates in transactions
         foreach ($incomeTransactions as $transaction) {
@@ -197,10 +197,12 @@ class TransaksiController extends Controller
         // Fetch pemasukan and pengeluaran transactions
         $pemasukan = Transaksi::where('tipe', 'pemasukan')
             ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->orderBy('tanggal', 'desc')
             ->get();
 
         $pengeluaran = Transaksi::where('tipe', 'pengeluaran')
             ->whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->orderBy('tanggal', 'desc')
             ->get();
 
         // Calculate totals

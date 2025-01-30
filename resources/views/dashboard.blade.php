@@ -46,9 +46,9 @@
                     </div>
 
                     <!-- Transactions Section -->
-                    <div class="flex flex-wrap gap-2">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Pemasukan Table -->
-                        <div class="w-full md:w-1/2">
+                        <div class="w-full">
                             <h4 class="font-bold text-lg mb-4">Pemasukan</h4>
                             <table class="table-auto w-full border-collapse border border-gray-200 text-xs sm:text-sm">
                                 <thead class="bg-gray-100">
@@ -75,7 +75,7 @@
                         </div>
 
                         <!-- Pengeluaran Table -->
-                        <div class="w-full md:w-1/2">
+                        <div class="w-full">
                             <h4 class="font-bold text-lg mb-4">Pengeluaran</h4>
                             <table class="table-auto w-full border-collapse border border-gray-200 text-xs sm:text-sm">
                                 <thead class="bg-gray-100">
